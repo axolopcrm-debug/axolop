@@ -44,10 +44,13 @@ This site functions as both:
 - **PostHog** for event tracking (`trial_started`, `license_sent`, `upgrade_clicked`)
 - **SEO:** JSON-LD `SoftwareApplication` schema, alt text, and performance-optimized assets
 
-### 🎨 Brand Assets
+### 🎨 Brand Assets & Logo Implementation
 
-- **Logo for white backgrounds:** `assets/images/axolop-logo.png` - Use this logo file for all white/light background applications
-- **Header logo:** Configured in Shopify Admin → Online Store → Themes → Customize → Header settings
+- **Primary Logo:** `assets/images/axolop-logo.png` - Orange shark icon on black background
+- **Header Implementation:** Direct asset URL implementation in `sections/header.liquid`
+- **Shopify Compatibility:** Uses `'images/axolop-logo.png' | asset_url` for proper Shopify asset handling
+- **Responsive Sizing:** 100px desktop, 90px mobile with proper aspect ratio (2.5:1)
+- **Fallback Strategy:** No text fallback - logo image is required and enforced
 - **CRO:** sticky CTA, comparison table, A/B hero sections, trust indicators, and reviews.
 
 **Page Template:** `page.analyzer.json`  
@@ -82,16 +85,16 @@ Hero CTA → Free Trial (email/license) → Nurture → Upgrade to Subscription
 
 ### Visual Identity
 
-| Element                | Specification                                  |
-| ---------------------- | ---------------------------------------------- |
-| Primary Background     | #0B0B0C                                        |
-| Text                   | #FFFFFF                                        |
-| Accent (Axolop Orange) | #FF411F                                        |
-| Secondary Panel        | #1E1E22                                        |
-| Muted Text             | #A7A7AD                                        |
-| Fonts                  | Söhne / Space Grotesk / Inter / JetBrains Mono |
-| UI Shape               | Soft 6–8px corners, 8/12pt grid system         |
-| Iconography            | Thin-line, high-contrast numerics              |
+| Element                | Specification                                                                          |
+| ---------------------- | -------------------------------------------------------------------------------------- |
+| Primary Background     | #0B0B0C                                                                                |
+| Text                   | #FFFFFF                                                                                |
+| Accent (Axolop Orange) | #FF411F                                                                                |
+| Secondary Panel        | #1E1E22                                                                                |
+| Muted Text             | #A7A7AD                                                                                |
+| Fonts                  | **Headers: Lexend Giga Extra Bold (800)** / **Body: Inter** / **Mono: JetBrains Mono** |
+| UI Shape               | Soft 6–8px corners, 8/12pt grid system                                                 |
+| Iconography            | Thin-line, high-contrast numerics                                                      |
 
 ---
 
@@ -140,9 +143,11 @@ Every deploy creates a **Git backup** with today's date + semantic version, push
 2. No inline scripts for tracking; use theme.liquid or JSON templates.
 3. Prioritize **load speed, conversion rate, and design cohesion**.
 4. Maintain **brand color (#FF411F)** for all accent states (hover, active, button).
-5. Optimize for **Klaviyo lead capture** and **trial conversion** first—sales second.
-6. Always reference Axolop as a **premium pro-audio company** — not a consumer plugin shop.
-7. Keep tone consistent with brands like FabFilter, Soundtoys, and Universal Audio.
+5. **Logo Implementation:** Always use `'images/axolop-logo.png' | asset_url` for Shopify compatibility.
+6. **Asset Management:** Keep all brand assets in `assets/images/` with proper Shopify asset URL formatting.
+7. Optimize for **Klaviyo lead capture** and **trial conversion** first—sales second.
+8. Always reference Axolop as a **premium pro-audio company** — not a consumer plugin shop.
+9. Keep tone consistent with brands like FabFilter, Soundtoys, and Universal Audio.
 
 ---
 
@@ -151,7 +156,9 @@ Every deploy creates a **Git backup** with today's date + semantic version, push
 ```
 axolop-site/
 ├── assets/                   # Compiled/static assets (CSS, JS, fonts, images)
+│   └── images/               # Brand assets (axolop-logo.png)
 ├── config/                   # Shopify configuration files
+├── docs/                     # Documentation (LOGO_IMPLEMENTATION.md)
 ├── layout/                   # Global HTML templates
 ├── locales/                  # Translations
 ├── sections/                 # Modular building blocks (Shopify OS 2.0)

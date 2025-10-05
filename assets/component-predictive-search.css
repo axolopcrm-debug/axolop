@@ -233,5 +233,4 @@ predictive-search[loading]
 .predictive-search__image {
   grid-area: product-image;
   object-fit: contain;
-  font-family: "object-fit: contain";
 }

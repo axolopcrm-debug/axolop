@@ -84,15 +84,15 @@ Hero CTA → Free Trial (email/license) → Nurture → Upgrade to Subscription
 
 | Element                 | Specification                                                                                                   |
 | ----------------------- | --------------------------------------------------------------------------------------------------------------- |
-| Primary Background      | #0B0B0C                                                                                                         |
-| Text                    | #FFFFFF                                                                                                         |
+| Primary Background      | #fffdf2                                                                                                         |
+| Text                    | #0B0B0C                                                                                                         |
 | Accent (Axolop Orange)  | #FF411F                                                                                                         |
 | Secondary Panel         | #1E1E22                                                                                                         |
 | Muted Text              | #A7A7AD                                                                                                         |
 | Fonts                   | **Headers: Lexend Giga Extra Bold (800) with -15% letter spacing** / **Body: Inter** / **Mono: JetBrains Mono** |
 | UI Shape                | Soft 6–8px corners, 8/12pt grid system                                                                          |
 | Iconography             | Thin-line, high-contrast numerics                                                                               |
-| Logo (White Background) | `assets/images/axolop-logo.png` - Use for all white/light backgrounds                                           |
+| Logo (Cream Background) | `assets/images/axolop-logo.png` - Use for all cream/light backgrounds                                           |
 
 ---
 
@@ -117,9 +117,11 @@ Hero CTA → Free Trial (email/license) → Nurture → Upgrade to Subscription
 3. Prioritize **load speed, conversion rate, and design cohesion**.
 4. Maintain **brand color (#FF411F)** for all accent states (hover, active, button).
 5. **CRITICAL TYPOGRAPHY:** All headers (h1-h6) MUST use **Lexend Giga Extra Bold (800)** font with **-15% letter spacing**. All body text MUST use **Inter** font. This is non-negotiable for brand consistency.
-6. Optimize for **Klaviyo lead capture** and **trial conversion** first—sales second.
-7. Always reference Axolop as a **premium pro-audio company** — not a consumer plugin shop.
-8. Keep tone consistent with brands like FabFilter, Soundtoys, and Universal Audio.
+6. **LOGO IMPLEMENTATION:** Always use `'images/axolop-logo.png' | asset_url` for Shopify compatibility. Never display "axolop" as text - only use the logo image.
+7. **ASSET MANAGEMENT:** Keep all brand assets in `assets/images/` with proper Shopify asset URL formatting.
+8. Optimize for **Klaviyo lead capture** and **trial conversion** first—sales second.
+9. Always reference Axolop as a **premium pro-audio company** — not a consumer plugin shop.
+10. Keep tone consistent with brands like FabFilter, Soundtoys, and Universal Audio.
 
 ---
 

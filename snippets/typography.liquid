@@ -1,17 +1,17 @@
 {% comment %}
   Font imports and base typography styles for AXOLOP
-  Includes Inter, Space Grotesk, and JetBrains Mono
+  Includes Inter and JetBrains Mono
 {% endcomment %}
 
 <!-- Font imports -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Lexend+Giga:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
   :root {
     --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    --font-heading: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-heading: 'Lexend Giga', -apple-system, BlinkMacSystemFont, sans-serif;
     --font-mono: 'JetBrains Mono', 'SF Mono', Monaco, 'Cascadia Code', monospace;
   }
   
@@ -23,7 +23,8 @@
   
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
-    font-weight: 600;
+    font-weight: 800;
+    letter-spacing: -0.15em;
     line-height: 1.2;
   }
   

@@ -1,17 +1,42 @@
 <style>
   header-drawer {
     justify-self: start;
-    margin-left: -1.2rem;
+    margin-left: -0.5rem;
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 2;
   }
 
   .header__heading-link.media {
     --media-radius: 0;
-    width: {{ settings.logo_width }}px;
-    max-width: {{ settings.logo_width }}px;
+    width: {{ settings.logo_width | times: 1.6 }}px;
+    max-width: {{ settings.logo_width | times: 1.6 }}px;
+    height: {{ settings.logo_width | times: 1.6 | divided_by: 2.5 }}px;
+    max-height: {{ settings.logo_width | times: 1.6 | divided_by: 2.5 }}px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
   }
   
   .header__heading-link.media img {
     object-fit: contain;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Center the logo heading */
+  .header__heading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    margin-top: -2px;
   }
 
   .header__heading-link.media .header__heading-logo--secondary {
@@ -20,8 +45,10 @@
   
   @media screen and (max-width: 749px) {
     .header__heading-link.media {
-      width: {{ settings.mobile_logo_width }}px;
-      max-width: {{ settings.mobile_logo_width }}px;
+      width: {{ settings.mobile_logo_width | times: 1.6 }}px;
+      max-width: {{ settings.mobile_logo_width | times: 1.6 }}px;
+      height: {{ settings.mobile_logo_width | times: 1.6 | divided_by: 2.5 }}px;
+      max-height: {{ settings.mobile_logo_width | times: 1.6 | divided_by: 2.5 }}px;
     }
   }
 
@@ -33,13 +60,17 @@
 
   {%- if section.settings.sticky_header_type == 'reduce-logo-size' -%}
     .scrolled-past-header .header__heading-link.media {
-      width: {{ settings.logo_width | times: 0.75 }}px;
-      max-width: {{ settings.logo_width | times: 0.75 }}px;
+      width: {{ settings.logo_width | times: 1.2 }}px;
+      max-width: {{ settings.logo_width | times: 1.2 }}px;
+      height: {{ settings.logo_width | times: 1.2 | divided_by: 2.5 }}px;
+      max-height: {{ settings.logo_width | times: 1.2 | divided_by: 2.5 }}px;
     }
     @media screen and (max-width: 749px) {
       .scrolled-past-header .header__heading-link.media {
-        width: {{ settings.mobile_logo_width | times: 0.75 }}px;
-        max-width: {{ settings.mobile_logo_width | times: 0.75 }}px;
+        width: {{ settings.mobile_logo_width | times: 1.2 }}px;
+        max-width: {{ settings.mobile_logo_width | times: 1.2 }}px;
+        height: {{ settings.mobile_logo_width | times: 1.2 | divided_by: 2.5 }}px;
+        max-height: {{ settings.mobile_logo_width | times: 1.2 | divided_by: 2.5 }}px;
       }
     }
   {%- endif -%}
@@ -64,7 +95,9 @@
 
   .list-menu--inline {
     display: inline-flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 1rem;
   }
 
   summary.list-menu__item {
@@ -75,27 +108,115 @@
     display: flex;
     align-items: center;
     line-height: calc(1 + 0.3 / var(--font-body-scale));
+    white-space: nowrap;
+  }
+
+  /* Make header menu items much bigger */
+  .header__menu-item {
+    font-family: 'Lexend Giga', sans-serif !important;
+    font-size: 1.8rem !important;
+    font-weight: 900 !important;
+    letter-spacing: -0.15em !important;
+    text-transform: uppercase !important;
+    padding: 0.8rem 1.2rem !important;
+    text-decoration: none !important;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .header__menu-item:hover {
+    background-color: rgba(255, 253, 242, 0.1);
+    transform: translateY(-1px);
+  }
+
+  /* Remove all highlighting styles */
+  .header__active-menu-item,
+  .header__active-menu-item-v2 {
+    background-color: transparent !important;
+    color: inherit !important;
+  }
+
+  /* Override any accent colors */
+  .color-accent-1 .header__active-menu-item-v2,
+  .color-accent-2 .header__active-menu-item-v2 {
+    background-color: transparent !important;
+    color: inherit !important;
+  }
+
+  @media screen and (min-width: 750px) {
+    .header__menu-item {
+      font-size: 2.2rem !important;
+      padding: 1rem 1.8rem !important;
+    }
+  }
+
+  /* Make mobile menu items use brand font as well */
+  .menu-drawer__menu-item {
+    font-family: 'Lexend Giga', sans-serif !important;
+    font-weight: 900 !important;
+    letter-spacing: -0.15em !important;
+    text-transform: uppercase !important;
+  }
+
+  /* Additional specificity for header menu items */
+  .header__inline-menu .header__menu-item,
+  .header__inline-menu .header__menu-item span {
+    font-family: 'Lexend Giga', sans-serif !important;
+    font-weight: 900 !important;
+    letter-spacing: -0.15em !important;
+    text-transform: uppercase !important;
   }
 
   .list-menu__item--link {
     text-decoration: none;
-    padding-bottom: 1rem;
-    padding-top: 1rem;
+    padding-bottom: 1.2rem;
+    padding-top: 1.2rem;
+    padding-left: 1.2rem;
+    padding-right: 1.2rem;
     line-height: calc(1 + 0.8 / var(--font-body-scale));
+    font-size: 1.6rem;
+    font-weight: 600;
   }
 
   @media screen and (min-width: 750px) {
     .list-menu__item--link {
-      padding-bottom: 0.5rem;
-      padding-top: 0.5rem;
+      padding-bottom: 0.8rem;
+      padding-top: 0.8rem;
+      padding-left: 1.8rem;
+      padding-right: 1.8rem;
+      font-size: 1.8rem;
+    }
+  }
+
+  /* Make header icons much bigger to match the larger text size */
+  .header__icon {
+    width: 4rem !important;
+    height: 4rem !important;
+    padding: 0.8rem !important;
+  }
+
+  .header__icon svg {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  @media screen and (min-width: 750px) {
+    .header__icon {
+      width: 5rem !important;
+      height: 5rem !important;
+      padding: 1rem !important;
     }
   }
 </style>
 
 {%- style -%}
   .header {
-    padding-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px;
+    padding-top: {{ section.settings.padding_top | times: 0.1 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.1 | round: 0 }}px;
+    min-height: 60px;
+    border-bottom: 0.4mm solid #000000;
   }
 
   .section-header {
@@ -111,8 +232,15 @@
 
   @media screen and (min-width: 990px) {
     .header {
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
+      padding-top: {{ section.settings.padding_top | times: 0.2 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.2 }}px;
+      min-height: 70px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .header {
+      min-height: 50px;
     }
   }
 {%- endstyle -%}
@@ -232,34 +360,17 @@
         <h1 class="header__heading">
       {%- endif -%}
           <{% if section.settings.logo_link != blank %}a href="{{ section.settings.logo_link }}"{% else %}div{% endif %}
-            class="header__heading-link{% if section.settings.logo_link != blank %} link link--text focus-inset{% endif %}{% if settings.logo != blank %} media media--transparent ratio{% endif %}"
-            {%- if settings.logo != blank -%}
-              style="--ratio-percent: {{ 1 | divided_by: settings.logo.aspect_ratio | times: 100 }}%"
-            {% endif %}
+            class="header__heading-link{% if section.settings.logo_link != blank %} link link--text focus-inset{% endif %} media media--transparent ratio"
+            style="--ratio-percent: 40%"
           >
-            {%- if settings.logo != blank -%}
-              {%- assign logo_alt = settings.logo.alt | default: shop.name | escape -%}
-              {%- assign logo_height = settings.logo_width | divided_by: settings.logo.aspect_ratio -%}
-              {{ settings.logo | image_url: width: 500 | image_tag:
-                class: 'header__heading-logo header__heading-logo--main motion-reduce',
-                widths: '50, 100, 150, 200, 250, 300, 400, 500',
-                height: logo_height,
-                width: settings.logo_width,
-                alt: logo_alt
-              }}
-              {%- if settings.secondary_logo != blank -%}
-                {%- assign secondary_logo_height = settings.logo_width | divided_by: settings.secondary_logo.aspect_ratio -%}
-                {{ settings.secondary_logo | image_url: width: 500 | image_tag:
-                  class: 'header__heading-logo header__heading-logo--secondary motion-reduce',
-                  widths: '50, 100, 150, 200, 250, 300, 400, 500',
-                  height: secondary_logo_height,
-                  width: settings.logo_width,
-                  alt: logo_alt
-                }}
-              {%- endif -%}
-            {%- else -%}
-              <span class="h2">{{ shop.name }}</span>
-            {%- endif -%}
+            {%- assign axolop_logo = 'images/axolop-logo.png' | asset_url -%}
+            <img src="{{ axolop_logo }}" 
+                 alt="{{ shop.name | escape }}" 
+                 class="header__heading-logo header__heading-logo--main motion-reduce"
+                 width="{{ settings.logo_width | times: 1.6 }}"
+                 height="{{ settings.logo_width | times: 1.6 | divided_by: 2.5 }}"
+                 style="width: {{ settings.logo_width | times: 1.6 }}px; height: {{ settings.logo_width | times: 1.6 | divided_by: 2.5 }}px;"
+                 loading="eager">
           </{% if section.settings.logo_link != blank %}a{% else %}div{% endif %}>
       {%- if request.page_type == 'index' -%}
         </h1>
@@ -279,7 +390,7 @@
                     <header-menu>
                       <details id="Details-HeaderMenu-{{ forloop.index }}">
                         <summary class="header__menu-item header__menu-item--main list-menu__item link focus-inset">
-                          <span {%- if link.child_active %} class="header__active-menu-item"{% endif %}>{{ link.title | escape }}</span>
+                          <span>{% if link.title == 'Home' %}Shop{% elsif link.title == 'Catalog' %}About{% else %}{{ link.title | escape }}{% endif %}</span>
                           {% render 'icon-caret' %}
                         </summary>
                         <ul id="HeaderMenu-MenuList-{{ forloop.index }}" class="header__submenu list-menu list-menu--disclosure gradient caption-large motion-reduce global-settings-popup" role="list" tabindex="-1">
@@ -314,7 +425,7 @@
                   {% endif %}
                 {%- else -%}
                   <a href="{{ link.url }}" class="header__menu-item header__menu-item--main list-menu__item link link--text focus-inset"{% if link.current %} aria-current="page"{% endif %}>
-                    <span {%- if section.settings.highlight_active_link and link.current %} class="header__active-menu-item-v2 color-{{ section.settings.highlighted_link_color_scheme }}"{% endif %}>{{ link.title | escape }}</span>
+                    <span>{% if link.title == 'Home' %}Shop{% elsif link.title == 'Catalog' %}About{% else %}{{ link.title | escape }}{% endif %}</span>
                   </a>
                 {%- endif -%}
               </li>
@@ -336,13 +447,7 @@
                           id="HeaderMenu-{{ link.handle }}"
                           class="header__menu-item header__menu-item--main list-menu__item link focus-inset"
                         >
-                          <span
-                            {%- if link.child_active %}
-                              class="header__active-menu-item"
-                            {% endif %}
-                          >
-                            {{- link.title | escape -}}
-                          </span>
+                          <span>{% if link.title == 'Home' %}Shop{% elsif link.title == 'Catalog' %}About{% else %}{{ link.title | escape }}{% endif %}</span>
                           {% render 'icon-caret' %}
                         </summary>
                         <div
@@ -400,13 +505,7 @@
                       aria-current="page"
                     {% endif %}
                   >
-                    <span
-                      {% if section.settings.highlight_active_link and link.current %}
-                        class="header__active-menu-item-v2 color-{{ section.settings.highlighted_link_color_scheme }}"
-                      {% endif %}
-                    >
-                      {{- link.title | escape -}}
-                    </span>
+                    <span>{% if link.title == 'Home' %}Shop{% elsif link.title == 'Catalog' %}About{% else %}{{ link.title | escape }}{% endif %}</span>
                   </a>
                 {%- endif -%}
               </li>
@@ -421,34 +520,17 @@
         <h1 class="header__heading">
       {%- endif -%}
           <{% if section.settings.logo_link != blank %}a href="{{ section.settings.logo_link }}"{% else %}div{% endif %}
-            class="header__heading-link{% if section.settings.logo_link != blank %} link link--text focus-inset{% endif %}{% if settings.logo != blank %} media media--transparent ratio{% endif %}"
-            {%- if settings.logo != blank -%}
-              style="--ratio-percent: {{ 1 | divided_by: settings.logo.aspect_ratio | times: 100 }}%"
-            {% endif %}
+            class="header__heading-link{% if section.settings.logo_link != blank %} link link--text focus-inset{% endif %} media media--transparent ratio"
+            style="--ratio-percent: 40%"
           >
-            {%- if settings.logo != blank -%}
-              {%- assign logo_alt = settings.logo.alt | default: shop.name | escape -%}
-              {%- assign logo_height = settings.logo_width | divided_by: settings.logo.aspect_ratio -%}
-              {{ settings.logo | image_url: width: 500 | image_tag:
-                class: 'header__heading-logo header__heading-logo--main',
-                widths: '50, 100, 150, 200, 250, 300, 400, 500',
-                height: logo_height,
-                width: settings.logo_width,
-                alt: logo_alt
-              }}
-              {%- if settings.secondary_logo != blank -%}
-                {%- assign secondary_logo_height = settings.logo_width | divided_by: settings.secondary_logo.aspect_ratio -%}
-                {{ settings.secondary_logo | image_url: width: 500 | image_tag:
-                  class: 'header__heading-logo header__heading-logo--secondary',
-                  widths: '50, 100, 150, 200, 250, 300, 400, 500',
-                  height: secondary_logo_height,
-                  width: settings.logo_width,
-                  alt: logo_alt
-                }}
-              {%- endif -%}
-            {%- else -%}
-              <span class="h2">{{ shop.name }}</span>
-            {%- endif -%}
+            {%- assign axolop_logo = 'images/axolop-logo.png' | asset_url -%}
+            <img src="{{ axolop_logo }}" 
+                 alt="{{ shop.name | escape }}" 
+                 class="header__heading-logo header__heading-logo--main"
+                 width="{{ settings.logo_width | times: 1.6 }}"
+                 height="{{ settings.logo_width | times: 1.6 | divided_by: 2.5 }}"
+                 style="width: {{ settings.logo_width | times: 1.6 }}px; height: {{ settings.logo_width | times: 1.6 | divided_by: 2.5 }}px;"
+                 loading="eager">
           </{% if section.settings.logo_link != blank %}a{% else %}div{% endif %}>
       {%- if request.page_type == 'index' -%}
         </h1>

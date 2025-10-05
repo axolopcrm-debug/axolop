@@ -1,4 +1,88 @@
 /* ===============================================
+   AXOLOP SITE BACKGROUND COLOR
+   =============================================== */
+
+/* Site background color - Cream white */
+body {
+  background-color: #fffdf2 !important;
+}
+
+html {
+  background-color: #fffdf2 !important;
+}
+
+/* ===============================================
+   AXOLOP HEADER SIZING & REFERENCE DIMENSIONS
+   =============================================== */
+
+/* Header container sizing - Taller header */
+.header {
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+/* Header logo reference sizing */
+.header__heading-link.media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+/* Center the header heading */
+.header__heading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+/* Header navigation sizing */
+.header__inline-menu {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: nowrap;
+}
+
+.header__icons {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+  z-index: 2;
+}
+
+/* Responsive header sizing - Taller header */
+@media screen and (max-width: 749px) {
+  .header {
+    min-height: 50px;
+    padding: 0 1rem;
+  }
+  
+  .header__inline-menu {
+    gap: 1rem;
+  }
+  
+  .header__icons {
+    gap: 0.5rem;
+  }
+}
+
+@media screen and (min-width: 750px) {
+  .header {
+    min-height: 70px;
+    padding: 0 2rem;
+  }
+}
+
+/* ===============================================
    AXOLOP BRAND TYPOGRAPHY - LEXEND GIGA EXTRA BOLD
    =============================================== */
 
@@ -85,7 +169,16 @@ h6, .h6 {
 }
 
 /* Body text - Inter font */
-body, p, .body, .text, .rte, .description, .content {
+body, p, .body, .text, .rte, .description, .content, 
+span, div, li, td, th, label, input, textarea, button,
+.caption, .small, .medium, .large, .price, .price-item,
+.product-card__title, .product-card__vendor, .product-card__price,
+.cart-item__title, .cart-item__variant, .cart-item__price,
+.customer, .link, .share-button__button, .newsletter__subheading,
+.section-header__description, .rich-text__content, .article-template__content,
+.faq__question, .faq__answer, .testimonial__text, .testimonial__author,
+.comparison-table__cell, .pricing-table__description, .pricing-table__feature,
+.hero__subheading, .hero__description, .cta__text, .cta__description {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
   font-weight: 400 !important;
 }
