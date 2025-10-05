@@ -1,0 +1,32 @@
+{
+  "name": "AXOLOP Custom Schema",
+  "description": "Modular schema for non-theme integrations",
+  "version": "1.0.0",
+  "integrations": {
+    "klaviyo": {
+      "enabled": true,
+      "events": [
+        "trial_started",
+        "license_issued", 
+        "upgrade_clicked",
+        "club_subscribed"
+      ],
+      "lists": [
+        "analyzer_trial",
+        "club_members",
+        "high_intent"
+      ]
+    },
+    "subscriptions": {
+      "enabled": true,
+      "provider": "recharge",
+      "sku": "axolop-club"
+    },
+    "analytics": {
+      "ga4": true,
+      "meta_pixel": true,
+      "tiktok_pixel": true,
+      "posthog": false
+    }
+  }
+}

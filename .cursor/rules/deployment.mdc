@@ -1,0 +1,203 @@
+
+alwaysApply: true
+description: AXOLOP — Shopify Deployment Rules (Git backup + GitHub + Theme publish)
+---
+
+# 🚀 Deployment Process (Single Source of Truth)
+
+**Goal:** Every deploy creates a **Git backup** with today’s date + semantic version, pushes to **GitHub**, and then deploys to **Shopify** from the repo. No Vercel. Dev store previews auto-refresh.
+
+## ✅ Versioning & Naming
+
+- **Semantic tag:** `vMAJOR.MINOR.PATCH` (e.g., `v1.3.0`)
+- **Release branch:** `release/vMAJOR.MINOR.PATCH`
+- **Backup tag (dated):** `backup/YYYY-MM-DD-vMAJOR.MINOR.PATCH` (e.g., `backup/2025-10-04-v1.3.0`)
+- **Commit prefix:** `release: vMAJOR.MINOR.PATCH – <short summary>`
+
+> Cursor: when preparing a deploy, always bump `PATCH` unless there are breaking changes (MAJOR) or new features (MINOR).
+
+---
+
+## 🧭 One-Page Checklist (run in order)
+
+1. **Pull latest & verify clean tree**
+   ```bash
+   git checkout main
+   git pull origin main
+   git status   # working tree must be clean
+````
+
+2. **Set version variables**
+
+   ```bash
+   export VERSION=vX.Y.Z       # e.g., v1.3.0
+   export TODAY=$(date +%F)    # YYYY-MM-DD
+   export SUMMARY="Analyzer landing – copy tweaks & comparison table perf"
+   ```
+
+3. **Create release branch**
+
+   ```bash
+   git checkout -b release/$VERSION
+   ```
+
+4. **Build/check theme locally (optional asset build)**
+
+   ```bash
+   # If using Tailwind/Vite, run build here so final files are in /assets
+   npm run build || true
+   shopify theme validate || true
+   ```
+
+5. **Update CHANGELOG**
+
+   * Append a new section at top of `CHANGELOG.md`:
+
+     ```
+     ## $VERSION — $TODAY
+     - $SUMMARY
+     - Notes: Any schema changes, section adds/removes, and app config updates.
+     ```
+
+6. **Commit, backup tag, and push to GitHub**
+
+   ```bash
+   git add -A
+   git commit -m "release: $VERSION — $SUMMARY"
+   git tag -a $VERSION -m "$SUMMARY"
+   git tag -a backup/$TODAY-$VERSION -m "Backup snapshot before publish"
+
+   git push origin release/$VERSION
+   git push origin $VERSION
+   git push origin backup/$TODAY-$VERSION
+   ```
+
+7. **Open PR → Merge to `main`**
+
+   * Create PR `release/$VERSION` → `main`
+   * Require checks: build passes, Lint OK, preview QA approved
+   * Merge (Squash or Merge—be consistent)
+
+8. **Sync `main` locally**
+
+   ```bash
+   git checkout main
+   git pull origin main
+   ```
+
+9. **Deploy to Shopify (draft theme first)**
+
+   ```bash
+   # Login once per machine
+   shopify login --store your-store.myshopify.com
+
+   # Push as unpublished draft theme
+   shopify theme push --unpublished --path . \
+     --message "$VERSION — $SUMMARY"
+   ```
+
+10. **QA the draft in the Dev Store**
+
+    * Verify **Analyzer landing page** (`/pages/analyzer`)
+    * Check: hero CTAs, cart drawer, free trial flow, Klaviyo events, pixels, mobile nav, speed
+
+11. **Publish the draft**
+
+    * Shopify Admin → Online Store → Themes → Actions → **Publish**
+    * Export `config/settings_data.json` snapshot post-publish and commit:
+
+      ```bash
+      git add config/settings_data.json
+      git commit -m "chore: snapshot settings post-publish $VERSION"
+      git push origin main
+      ```
+
+---
+
+## ♻️ Rollback Strategy (one command & publish)
+
+If anything breaks, check out the last good tag and push as a draft, then publish.
+
+```bash
+# Example: rollback to v1.2.3
+git checkout -b rollback/v1.2.3 tags/v1.2.3
+shopify theme push --unpublished --path . --message "rollback: v1.2.3"
+# Publish the draft from Admin after quick QA
+```
+
+*You can also pull a dated backup tag: `backup/YYYY-MM-DD-vX.Y.Z`.*
+
+---
+
+## 🧪 Pre-Deploy QA (must pass)
+
+* **Functional:** trial add-to-cart → license delivery email, subscription add, thank-you page links
+* **CRO:** sticky CTA visible, comparison table scrollable on mobile, final CTA present
+* **Pixels/Events:** GA4, Meta, TikTok firing; Klaviyo `trial_started`, `license_issued`
+* **Perf:** no console errors; LCP target met; images lazy-loaded
+* **SEO:** unique title/description; JSON-LD valid; alt text present
+* **A11y:** keyboard nav, focus states, contrast (AA)
+
+---
+
+## 🗂 Repo Hygiene
+
+* Branches: `main`, `dev`, `feat/*`, `fix/*`, `release/*`
+* Do **not** commit large binaries. Optimize images to `.webp`/`.avif`
+* Keep **`/assets` final** (compiled) files; build steps generate/overwrite them
+* Changes to `settings_schema.json` require testing section settings in the editor
+
+---
+
+## 🔐 Secrets & Access
+
+* Never commit API keys. Pixels load via **theme settings** or app embeds
+* Shopify store access is managed in Admin; CLI uses Shopify login flow
+
+---
+
+## 🔁 Automation (optional helper script)
+
+Save as `scripts/release.sh` and run `bash scripts/release.sh v1.3.0 "Analyzer hero copy + table perf"`.
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+VERSION="${1:?Usage: release.sh vX.Y.Z \"Summary\"}"
+SUMMARY="${2:?Provide a short summary}"
+TODAY=$(date +%F)
+
+git checkout main
+git pull origin main
+
+git checkout -b "release/$VERSION"
+
+npm run build || true
+[ -f CHANGELOG.md ] || touch CHANGELOG.md
+{ echo "## $VERSION — $TODAY"; echo "- $SUMMARY"; echo; cat CHANGELOG.md; } > CHANGELOG.tmp && mv CHANGELOG.tmp CHANGELOG.md
+
+git add -A
+git commit -m "release: $VERSION — $SUMMARY"
+git tag -a "$VERSION" -m "$SUMMARY"
+git tag -a "backup/$TODAY-$VERSION" -m "Backup snapshot before publish"
+
+git push origin "release/$VERSION"
+git push origin "$VERSION"
+git push origin "backup/$TODAY-$VERSION"
+
+echo "Open PR release/$VERSION → main, merge, then:"
+echo "  git checkout main && git pull origin main"
+echo "  shopify theme push --unpublished --message \"$VERSION — $SUMMARY\""
+```
+
+---
+
+## 📌 Notes
+
+* **No Vercel.** Deployment is **GitHub + Shopify Theme** only.
+* **Dev store previews auto-update** when you push a draft theme.
+* Always create the **dated backup tag** before any publish.
+
+```
+```

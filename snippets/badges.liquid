@@ -1,0 +1,15 @@
+{% comment %}
+  Feature badges and icons for AXOLOP
+  Usage: {% render 'badges', type: 'feature', text: 'Pro Audio' %}
+{% endcomment %}
+
+{%- case type -%}
+  {%- when 'feature' -%}
+    <span class="badge badge--feature">{{ text }}</span>
+  {%- when 'new' -%}
+    <span class="badge badge--new">{{ text | default: 'New' }}</span>
+  {%- when 'pro' -%}
+    <span class="badge badge--pro">{{ text | default: 'Pro' }}</span>
+  {%- else -%}
+    <span class="badge">{{ text }}</span>
+{%- endcase -%}

@@ -1,286 +1,125 @@
 ---
 alwaysApply: true
-description: HIFICOPY Website Tech Stack and Architecture Guide
+---
+# 🔌 Integrations & Events
+
+## Klaviyo
+- Install via app + site snippet in `theme.liquid`.  
+- Track: `trial_started`, `license_issued`, `upgrade_clicked`, `club_subscribed`.  
+- Lists/segments: `analyzer_trial`, `club_members`, `high_intent`.
+
+## Subscriptions (Recharge/Appstle)
+- SKU: **Axolop Club** (monthly/annual).  
+- Cart/checkout: ensure drawer supports subscription line items and $0 trials (if used).
+
+## Digital Delivery & Licensing
+- Attach installers/keys to the `$0 trial` and paid products.  
+- Expiry/renewal webhooks → tag users (`trial_expired`, `license_revoked`) and email via Klaviyo.  
+- Use Mechanic (optional) for license rotation, tagging, and trial reminders.
+
+## Analytics & CRO
+- **GA4**, **Meta**, **TikTok** pixels in `theme.liquid`.  
+- **PostHog (optional):** only if light; track the 4 events above.  
+- **A/B testing:** prefer server-side via app; if client-side, ensure no CLS and cache-safety.  
+- **JSON-LD**: `SoftwareApplication` for analyzer product/page.
+
 ---
 
-# HIFICOPY Website Tech Stack & Architecture
+# 🧩 Metafields/Metaobjects (content modeling)
 
-## 🎯 Website Overview
+- **Metaobject: testimonials** → name, role, quote, avatar, rating, proof link.  
+- **Metaobject: partner_studios** → name, logo, URL.  
+- **Metafields (product/page):** feature_bullets, comparison_rows, faq_items, media_urls.
 
-**HIFICOPY** is a premium 3D agency landing page built with cutting-edge web technologies to showcase premium DTC Klaviyo services. The website combines:
+*Cursor: when adding new content types, prefer metaobjects so marketing can scale without code.*
 
-- **React 18** for component-based UI development
-- **Vite** for lightning-fast development and builds
-- **Tailwind CSS** for rapid, responsive styling
-- **Spline 3D** for high-quality 3D animations and interactive elements
-- **GSAP** for 2D animations and UI transitions
+---
 
-This architecture creates a visually stunning, performance-optimized 3D agency website that effectively converts visitors into leads through a "Book a Call" funnel with maximum visual impact.
+# 🧪 QA & Checklists (run before push)
 
-## 🏗️ Core Technology Stack
+**Functional**
+- All CTAs resolve (Hero, sticky, pricing, final).  
+- Trial flow: add to cart → license email → thank-you page with install steps.  
+- Subscription purchase works with drawer + checkout.
 
-### **Backend Technologies**
-- **Node.js** - JavaScript runtime for server-side development
-  - File: [server.js](mdc:server.js)
-  - Purpose: Web server and API endpoints
-  - Port: 3001 (production), 3000 (development frontend)
+**UX**
+- Mobile-first: hero fits ≤ 640px, sticky CTA not overlapping.  
+- Comparison table scrolls on mobile with shadow affordance.  
+- Video sections lazy-load and have poster images.
 
-- **Express.js** - Web application framework for Node.js
-  - File: [server.js](mdc:server.js)
-  - Purpose: HTTP request handling, middleware, routing, static file serving
-  - Dependencies: compression, cors, helmet
+**Perf**
+- LCP ≤ 1.0s on desktop, ≤ 1.8s on mobile for landing page.  
+- Image weights optimized; JS under control (no >150KB uncompressed per page).  
+- No console errors, 0 broken links.
 
-### **Frontend Technologies**
-- **React 18** - JavaScript library for building user interfaces
-  - Purpose: Component-based UI development for single-page application
-  - Features: Virtual DOM, component lifecycle, hooks, state management
-  - Architecture: Modern React with functional components and hooks
-  - Entry: [src/main.jsx](mdc:src/main.jsx)
+**SEO**
+- Unique `<title>`, `<meta name="description">`.  
+- Canonical tag set; alt text present; JSON-LD validates.
 
-- **Vite** - Next-generation frontend build tool
-  - Purpose: Fast development server and optimized production builds
-  - Config: [vite.config.js](mdc:vite.config.js)
-  - Features: Hot module replacement, ES modules, optimized bundling
+**Accessibility**
+- Keyboard nav full; visible focus states; landmarks (header, main, footer).
 
-- **Tailwind CSS** - Utility-first CSS framework
-  - Files: [src/index.css](mdc:src/index.css), [tailwind.config.js](mdc:tailwind.config.js)
-  - Purpose: Rapid UI development, responsive design, utility classes
-  - Integration: Seamlessly works with React components
+---
 
-- **Spline** - 3D design and animation platform
-  - Purpose: High-quality 3D animations and interactive 3D elements
-  - Integration: @splinetool/react-spline for React components
-  - Use Case: Complex 3D visualizations in hero section
-  - Features: Real-time 3D rendering, interactive 3D objects, WebGL optimization
+# 🚀 Local Dev & Deploy
 
-### **Animation & Interactions**
-- **GSAP (GreenSock)** - Professional 2D animation library
-  - Integration: NPM package with React hooks
-  - Files: [src/animation/useGSAP.js](mdc:src/animation/useGSAP.js)
-  - Purpose: 2D animations, scroll triggers, timeline animations, UI transitions
-  - Plugins: ScrollTrigger, Timeline
-  - Scope: Handles all 2D animations and UI interactions
+**Commands**
+- Preview: `shopify theme dev`  
+- Pull: `shopify theme pull`  
+- Push draft: `shopify theme push --unpublished`  
+- Live publish: via Admin after QA
 
-- **Spline + GSAP Integration** - Combined animation strategy
-  - Purpose: Spline handles 3D animations, GSAP handles 2D UI animations
-  - Workflow: Spline for complex 3D scenes, GSAP for page transitions and UI effects
-  - Performance: Optimized rendering with WebGL (Spline) and DOM (GSAP)
+**Branching**
+- `main` (stable), `feat/*` (features), `fix/*` (hotfix)  
+- Conventional commits: `feat:`, `fix:`, `chore:`, `refactor:`, `style:`  
 
-### **Typography & Assets**
-- **Google Fonts** - Web typography
-  - Fonts: Inter (400, 600, 700), Bebas Neue
-  - Implementation: Via Google Fonts CDN in [index.html](mdc:index.html)
-  - Purpose: Brand typography, consistent font loading
+**Releases**
+1. Merge to `main` → push draft theme.  
+2. Smoke test with *settings_data.json* from staging.  
+3. Tag release, publish, and create rollback snapshot.
 
-### **Color System**
-- **Primary Brand Colors** - Defined in Tailwind config
-  - `hificopy-dark`: `#101010` - Primary dark background color (not pure black)
-  - `hificopy-yellow`: `#f2ff00` - Primary accent color for CTAs and highlights
-  - `hificopy-purple`: `#18075e` - Secondary brand color
-  - `hificopy-purple2`: `#28223f` - Tertiary brand color
-  - Implementation: Custom Tailwind colors in [tailwind.config.js](mdc:tailwind.config.js)
-  - Usage: All dark backgrounds use `bg-hificopy-dark` (#101010) for consistency
-  - Purpose: Maintains visual consistency and brand identity across all sections
+---
 
-### **Analytics & Tracking**
-- **PostHog** - Product analytics and feature flags
-  - Implementation: NPM package with React integration
-  - Purpose: User behavior tracking, conversion analytics, A/B testing
-  - API Key: phc_j21xoesJJQ69fRZgK2G7molLbHliftoCAvj9qlLB3C7
+# 🧰 Section Guidelines (Analyzer page)
 
-- **iClosed** - Lead capture and conversion tracking
-  - Implementation: Widget script integration
-  - Purpose: Lead capture forms, conversion tracking
+- **Hero (`slideshow-hero`)**: H1, subhead, two CTAs, partner bar; accent button uses `#FF6A00`.  
+- **Comparison (`comparison-table`)**: Columns = Axolop, SPAN+, MiniMeters, Youlean; rows = usability outside VST, FFT sizes, slopes, true peak, EBU R128, correlation/phase, multichannel, exportable reports, API hooks, CPU load.  
+- **Videos (`video`/`Tiktok-Videos`)**: two short demos (Beginner 60s, Pro Deep Dive).  
+- **Pricing (`pricing-table`)**: Free 30-day (no card test vs with card), Axolop Club subscription card, Perpetual note.  
+- **Reviews (`Ultimate-Reviews`/`testimonials`)**: pull from metaobjects; show 6 max, link to full.  
+- **FAQ (`collapsible-content`)**: DAW/OS support, standalone mode, CPU, licensing, reporting.  
+- **Newsletter**: rename to “Tech Notes & DSP Changelogs”.
 
-### **SEO & Optimization**
-- **Semrush** - SEO platform for keyword research and optimization
-  - Purpose: Keyword research, position tracking, backlink gap analysis, site audit
-  - Integration: Weekly site audits, keyword monitoring, competitor analysis
-  - Target Keywords: Klaviyo agency, ecommerce email marketing, DTC retention, deliverability services
+---
 
-- **SEO On-Page Essentials** - Search engine optimization fundamentals
-  - Meta Tags: Title (70 chars), Description (155 chars), canonical tag
-  - OG/Twitter Cards: Full Open Graph + Twitter summary_large_image for social sharing
-  - Schema Markup: JSON-LD (Organization, ProfessionalService, Website) in index.html
-  - Sitemap & Robots: Auto-generated sitemap.xml and robots.txt for crawler guidance
-  - Content Structure: Single H1, descriptive H2s (Problems, Solutions, Services, FAQs)
-  - Performance: Web Vitals optimization (LCP < 2.5s, CLS < 0.1, INP < 200ms)
+# 🧷 Copy & Tone Rules (enforce)
 
-- **SEO Monitoring & Growth** - Ongoing optimization and tracking
-  - Keyword Tracking: 10-15 primary queries monitored in Semrush position tracking
-  - Backlink Outreach: Quarterly backlink gap campaigns against top Klaviyo competitors
-  - Conversion Attribution: PostHog integration to measure which SEO traffic converts
-  - Technical SEO: Regular crawl error fixes, metadata optimization, mobile-first indexing
+- Short, precise, engineer-first.  
+- Claims must be paired with numbers or visuals.  
+- “Free for 30 days” messaging consistent site-wide.  
+- Buttons: “Get Free for 30 Days”, “See It vs Your Meter”.
 
-## 📁 Project Architecture
+---
 
-### **React + Vite Application Structure**
-hificopy/
-├─ .cursor/
-│  └─ rules/
-│     ├─ hificopy-website-info.mdc
-│     ├─ tech-stack.mdc
-│     └─ folder-structure.mdc
-├─ .github/
-│  └─ workflows/
-│     └─ ci.yml                # lint + build check on PRs
-├─ public/                     # static assets served as-is
-│  ├─ og-image.jpg
-│  ├─ favicon.ico
-│  ├─ robots.txt
-│  ├─ sitemap.xml
-│  ├─ security.txt
-│  └─ humans.txt
-├─ src/
-│  ├─ app/                     # app shell + providers
-│  │  ├─ App.jsx
-│  │  └─ providers/            # analytics, motion, theme providers
-│  │     ├─ AnalyticsProvider.jsx
-│  │     └─ MotionProvider.jsx
-│  ├─ sections/                # page sections in order of appearance
-│  │  ├─ Hero/
-│  │  │  ├─ Hero.jsx
-│  │  │  └─ Hero.gsap.js      # timeline for this section only
-│  │  ├─ TestimonialsBar/…
-│  │  ├─ ProblemsSection/…
-│  │  ├─ SolutionsSection/…
-│  │  ├─ ServicesSection/…
-│  │  └─ CTASection/…
-│  ├─ components/              # small, reusable UI primitives
-│  │  ├─ Button.jsx
-│  │  ├─ Container.jsx
-│  │  └─ Navigation.jsx
-│  ├─ animation/               # GSAP hooks & shared timelines
-│  │  ├─ useGSAP.js
-│  │  └─ scroll.js             # helpers (pin, scrub, reduced-motion guards)
-│  ├─ spline/                  # 3D is isolated and optional
-│  │  ├─ SplineScene.jsx       # lazy-loaded, respects reduced motion
-│  │  └─ assets/               # .spline or poster images
-│  ├─ lib/                     # utilities that aren't React-specific
-│  │  ├─ analytics.js          # PostHog init + capture helpers
-│  │  ├─ seo.js                # build JSON-LD, meta tags
-│  │  └─ utm.js                # UTM registration + storage
-│  ├─ hooks/                   # generic React hooks
-│  │  ├─ useUTM.js
-│  │  └─ useReducedMotionPref.js
-│  ├─ styles/
-│  │  └─ index.css             # Tailwind base + tokens
-│  ├─ data/                    # tiny JSON/config for content tokens
-│  │  ├─ links.json            # scheduler, typeform, social
-│  │  └─ metrics.json          # anonymized proof numbers
-│  └─ main.jsx                 # React entry
-├─ .env.example
-├─ assets/                  # static assets (fonts, images, icons)
-├─ eslint.config.js         # ESLint configuration
-├─ dist/                    # build output (generated)
-├─ git backups/             # backup files (not in production)
-├─ index.html               # meta/OG/LD+JSON; React mount
-├─ package.json
-├─ postcss.config.js
-├─ resources/               # additional resources
-├─ server.js                # Express server
-├─ tailwind.config.js
-├─ vite.config.js
-└─ README.md
+# 🔒 Security & Privacy
 
-## 🎯 Technology Use Cases
+- No customer PII in console logs or theme comments.  
+- Do not embed third-party scripts without async/defer and a clear purpose.  
+- Respect Shopify CSP; use App Embeds when possible.
 
-### **UI Development Strategy**
-- **React**: Component-based architecture for single-page application
-  - Reusable UI components for consistent design
-  - State management for interactive elements
-  - Component lifecycle for performance optimization
-  - Hooks for state and side effects management
+---
 
-- **Tailwind CSS**: Primary styling framework for rapid development
-  - Utility classes for layout, spacing, colors
-  - Responsive design with breakpoints
-  - Custom configuration for brand colors
-  - Seamless integration with React components
+# 🧲 North-Star KPIs
 
-- **Custom CSS**: Component-specific styling and overrides
-  - Complex animations and transitions
-  - Brand-specific styling not covered by Tailwind
-  - React component-specific styling
+- Landing → Trial Start rate  
+- Trial → Subscription conversion (7/14/30d)  
+- First-week active usage (from license pings/events)  
+- AOV/LTV for upsells after trial
 
-### **Animation Strategy**
-- **Spline**: 3D animations and interactive elements
-  - Complex 3D visualizations and scenes
-  - Interactive 3D objects and environments
-  - WebGL-optimized 3D rendering
-  - 3D animations that GSAP cannot handle
-  - Integration with React components for seamless UI
+---
 
-- **GSAP**: 2D animations and UI interactions
-  - Page transitions and scroll-triggered animations
-  - Complex timeline animations
-  - UI element animations and micro-interactions
-  - Performance-optimized 2D animations
+# ✅ Cursor, remember:
 
-- **CSS Transitions**: Simple hover effects and micro-interactions
-  - Button hover states
-  - Card hover effects
-  - Smooth transitions
-
-### **Development Workflow**
-- **React Development**: `npm start` - React development server with hot reload
-- **CSS Building**: Tailwind compilation with watch mode
-- **Spline Integration**: 3D scenes exported and integrated as React components
-- **Production Build**: `npm run build` - Optimized React build with minified assets
-
-## 🔧 Key Dependencies
-
-### **Production Dependencies**
-- `react`: UI library for component-based development
-- `react-dom`: React DOM rendering
-- `@splinetool/react-spline`: Spline 3D integration for React
-- `express`: Web framework
-- `compression`: Gzip compression
-- `cors`: Cross-origin resource sharing
-- `helmet`: Security headers
-- `gsap`: 2D animation library
-- `posthog-js`: Analytics tracking
-- `dotenv`: Environment variables
-
-### **Development Dependencies**
-- `@vitejs/plugin-react`: Vite React plugin for fast development
-- `tailwindcss`: CSS framework
-- `concurrently`: Run multiple commands
-- `nodemon`: Auto-restart server
-
-## 📋 Development Guidelines
-
-### **When to Use Each Technology**
-- **React**: Component development, state management, UI interactions, 3D scene integration
-- **Vite**: Development server, production builds, hot module replacement
-- **Tailwind CSS**: Layout, spacing, colors, responsive design
-- **Spline 3D**: Hero section 3D scenes, interactive 3D elements, premium visual impact
-- **GSAP**: 2D animations, scroll triggers, UI transitions, timeline animations
-- **Custom CSS**: Complex animations, brand-specific styling, React component styling
-- **PostHog**: User tracking, conversion analytics, A/B testing
-- **iClosed**: Lead capture, form submissions
-- **Semrush**: SEO keyword research, position tracking, site audits, competitor analysis
-- **SEO Tools**: Meta tags, schema markup, sitemap generation, performance optimization
-
-### **3D Agency Landing Page Features**
-- **Spline 3D Integration**: Interactive 3D hero scenes for premium brand differentiation
-- **React Components**: Modular 3D scene components for easy maintenance
-- **Performance Optimization**: WebGL-optimized 3D rendering with React integration
-- **Mobile Responsive**: 3D elements adapt to different screen sizes
-- **Accessibility**: Motion-reduced mode support for 3D animations
-
-### **File Naming Conventions**
-- React components: `PascalCase.jsx` or `PascalCase.tsx`
-- CSS files: `kebab-case.css`
-- JavaScript files: `camelCase.js`
-- HTML files: `kebab-case.html`
-- Configuration files: `kebab-case.config.js`
-- Spline files: `kebab-case.spline`
-
-### **Code Organization**
-- Organize React components by feature or functionality
-- Keep Spline 3D scenes separate from 2D animations
-- Use React hooks for state management and side effects
-- Follow mobile-first responsive design
-- Optimize for performance and accessibility
-- Separate 3D (Spline) and 2D (GSAP) animation concerns
+- Shopify is the **source of truth** for this project.  
+- Prefer **sections + metaobjects**, not hardcoding.  
+- Optimize for **speed, clarity, and conversions**—aligned with Axolop’s pro brand.

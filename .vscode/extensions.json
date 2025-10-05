@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "shopify.theme-liquid",
+    "bradlc.vscode-tailwindcss",
+    "esbenp.prettier-vscode",
+    "ms-vscode.vscode-json"
+  ]
+}

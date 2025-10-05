@@ -1,0 +1,38 @@
+# AXOLOP Shopify Ignore File
+# Files excluded from theme deployment
+
+# Development files
+.vscode/
+.cursor/
+node_modules/
+package-lock.json
+yarn.lock
+
+# Build files
+src/
+*.config.js
+vite.config.js
+tailwind.config.js
+
+# Git
+.git/
+.gitignore
+
+# IDE
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Temporary files
+*.tmp
+*.temp

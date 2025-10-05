@@ -1,0 +1,64 @@
+{
+  "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "settings": {
+        "message": "🎛️ AXOLOP A1 Analyzer - Free for 30 Days",
+        "link": "/products/analyzer"
+      }
+    },
+    "slideshow-hero": {
+      "type": "slideshow-hero",
+      "settings": {
+        "heading": "The Analyzer That Replaces Them All",
+        "subheading": "Professional audio analysis with brutal usability. Built for engineers, not marketers.",
+        "button_text": "Get Free for 30 Days",
+        "button_url": "/products/analyzer"
+      }
+    },
+    "comparison-table": {
+      "type": "comparison-table",
+      "settings": {
+        "heading": "See How AXOLOP Stacks Up",
+        "subheading": "Every feature you need, nothing you don't"
+      }
+    },
+    "pricing-table": {
+      "type": "pricing-table",
+      "settings": {
+        "heading": "Choose Your Path",
+        "subheading": "Start free, upgrade when you're ready"
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "settings": {
+        "heading": "Trusted by Pro Engineers",
+        "subheading": "Real feedback from real professionals"
+      }
+    },
+    "faq": {
+      "type": "collapsible-content",
+      "settings": {
+        "heading": "Frequently Asked Questions",
+        "subheading": "Everything you need to know about AXOLOP"
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "heading": "Tech Notes & DSP Changelogs",
+        "subheading": "Stay updated with the latest in audio technology"
+      }
+    }
+  },
+  "order": [
+    "announcement-bar",
+    "slideshow-hero",
+    "comparison-table",
+    "pricing-table",
+    "testimonials",
+    "faq",
+    "newsletter"
+  ]
+}

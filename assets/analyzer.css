@@ -1,0 +1,20 @@
+/* Styling for analyzer hero, comparison table, CTAs */
+/* AXOLOP brand colors and typography */
+
+:root {
+  --axolop-orange: #FF6A00;
+  --axolop-bg: #0B0B0C;
+  --axolop-text: #FFFFFF;
+  --axolop-panel: #1E1E22;
+  --axolop-muted: #A7A7AD;
+}
+
+.analyzer-hero {
+  background: var(--axolop-bg);
+  color: var(--axolop-text);
+}
+
+.analyzer-cta {
+  background: var(--axolop-orange);
+  border-radius: 8px;
+}

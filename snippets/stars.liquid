@@ -1,0 +1,13 @@
+{% comment %}
+  Review stars component for testimonials
+  Usage: {% render 'stars', rating: 5, size: 'small' %}
+{% endcomment %}
+
+{%- assign rating = rating | default: 5 -%}
+{%- assign size = size | default: 'medium' -%}
+
+<div class="stars stars--{{ size }}" aria-label="{{ rating }} out of 5 stars">
+  {%- for i in (1..5) -%}
+    <span class="star {% if i <= rating %}star--filled{% endif %}">★</span>
+  {%- endfor -%}
+</div>

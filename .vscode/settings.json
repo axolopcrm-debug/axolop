@@ -1,3 +1,18 @@
 {
-    "git.ignoreLimitWarning": true
+  "files.associations": {
+    "*.liquid": "liquid"
+  },
+  "emmet.includeLanguages": {
+    "liquid": "html"
+  },
+  "liquid.format.enable": true,
+  "liquid.completion.enable": true,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+  "css.validate": true,
+  "javascript.validate.enable": true,
+  "html.validate.styles": true,
+  "html.validate.scripts": true
 }

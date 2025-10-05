@@ -1,0 +1,32 @@
+{
+  "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "settings": {
+        "message": "🎛️ AXOLOP - Professional Audio Software",
+        "link": "/products/analyzer"
+      }
+    },
+    "hero": {
+      "type": "slideshow-hero",
+      "settings": {
+        "heading": "About AXOLOP",
+        "subheading": "Building the future of professional audio software",
+        "button_text": "Try Our Analyzer",
+        "button_url": "/products/analyzer"
+      }
+    },
+    "content": {
+      "type": "rich-text",
+      "settings": {
+        "heading": "Our Mission",
+        "content": "<p>AXOLOP is dedicated to creating professional audio software that combines technical precision with aesthetic restraint. We believe in brutal usability - every control exists for a reason, zero clutter.</p>"
+      }
+    }
+  },
+  "order": [
+    "announcement-bar",
+    "hero",
+    "content"
+  ]
+}

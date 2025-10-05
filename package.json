@@ -1,0 +1,34 @@
+{
+  "name": "axolop-shopify-theme",
+  "version": "1.0.0",
+  "description": "AXOLOP Analyzer Website - Shopify Theme",
+  "main": "index.js",
+  "scripts": {
+    "dev": "shopify theme dev",
+    "build": "vite build",
+    "preview": "shopify theme push --unpublished",
+    "deploy": "shopify theme push",
+    "pull": "shopify theme pull",
+    "validate": "shopify theme validate"
+  },
+  "keywords": [
+    "shopify",
+    "theme",
+    "audio",
+    "analyzer",
+    "axolop"
+  ],
+  "author": "AXOLOP",
+  "license": "MIT",
+  "devDependencies": {
+    "@shopify/cli": "^3.0.0",
+    "@shopify/theme": "^3.0.0",
+    "vite": "^5.0.0",
+    "autoprefixer": "^10.4.0",
+    "postcss": "^8.4.0",
+    "tailwindcss": "^3.4.0"
+  },
+  "dependencies": {
+    "klaviyo-api": "^2.0.0"
+  }
+}

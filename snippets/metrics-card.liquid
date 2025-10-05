@@ -1,0 +1,15 @@
+{% comment %}
+  Analyzer metric UI cards
+  Usage: {% render 'metrics-card', metric: 'LUFS', value: '-14.2', unit: 'dB' %}
+{% endcomment %}
+
+<div class="metrics-card">
+  <div class="metrics-card__metric">{{ metric }}</div>
+  <div class="metrics-card__value">
+    {{ value }}
+    {% if unit %}<span class="metrics-card__unit">{{ unit }}</span>{% endif %}
+  </div>
+  {% if description %}
+    <div class="metrics-card__description">{{ description }}</div>
+  {% endif %}
+</div>

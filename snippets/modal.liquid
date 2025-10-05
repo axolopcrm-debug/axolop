@@ -1,0 +1,15 @@
+{% comment %}
+  Modal markup for AXOLOP theme
+  Usage: {% render 'modal', id: 'video-modal', title: 'Watch Demo' %}
+{% endcomment %}
+
+<div class="modal" id="{{ id | default: 'modal' }}" aria-hidden="true">
+  <div class="modal__overlay" data-modal-close></div>
+  <div class="modal__content">
+    <button class="modal__close" data-modal-close aria-label="Close modal">×</button>
+    <h2 class="modal__title">{{ title | default: 'Modal' }}</h2>
+    <div class="modal__body">
+      {{ content }}
+    </div>
+  </div>
+</div>

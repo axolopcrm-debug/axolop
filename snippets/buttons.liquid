@@ -1,0 +1,19 @@
+{% comment %}
+  Global button markup for AXOLOP theme
+  Usage: {% render 'buttons', type: 'primary', text: 'Get Free for 30 Days', url: '/products/analyzer' %}
+{% endcomment %}
+
+{%- case type -%}
+  {%- when 'primary' -%}
+    <a href="{{ url | default: '#' }}" class="btn btn--primary analyzer-cta">
+      {{ text | default: 'Button' }}
+    </a>
+  {%- when 'secondary' -%}
+    <a href="{{ url | default: '#' }}" class="btn btn--secondary">
+      {{ text | default: 'Button' }}
+    </a>
+  {%- else -%}
+    <a href="{{ url | default: '#' }}" class="btn">
+      {{ text | default: 'Button' }}
+    </a>
+{%- endcase -%}

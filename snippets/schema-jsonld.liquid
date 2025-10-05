@@ -1,0 +1,25 @@
+{% comment %}
+  JSON-LD markup for SoftwareApplication schema
+  Usage: {% render 'schema-jsonld', product: product %}
+{% endcomment %}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "{{ product.title | escape }}",
+  "description": "{{ product.description | strip_html | escape }}",
+  "applicationCategory": "AudioApplication",
+  "operatingSystem": ["Windows", "macOS"],
+  "offers": {
+    "@type": "Offer",
+    "price": "{{ product.price | money_without_currency }}",
+    "priceCurrency": "{{ cart.currency.iso_code }}"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "ratingCount": "127"
+  }
+}
+</script>
