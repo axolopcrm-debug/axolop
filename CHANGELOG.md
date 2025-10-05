@@ -1,3 +1,7 @@
+## v1.1.1 — 2025-10-05
+- Replaced slideshow-hero with reference-hero section
+- Notes: Any schema changes, section adds/removes, and app config updates.
+
 ## v1.0.1 — 2025-01-27
 
 - **Logo Implementation:** Replaced text-based "axolop" header with `axolop-logo.png` image
