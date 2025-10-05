@@ -1,0 +1,335 @@
+---
+alwaysApply: true
+description: HiFiCopy Website Folder Structure and Organization Rules
+---
+
+# HiFiCopy Website Folder Structure & Organization
+
+## 📁 Project Structure
+
+```
+hificopy/
+├─ .cursor/
+│  └─ rules/
+│     ├─ hificopy-website-info.mdc
+│     ├─ tech-stack.mdc
+│     └─ folder-structure.mdc
+├─ .github/
+│  └─ workflows/               # CI/CD workflows (currently empty)
+├─ public/                     # static assets served as-is
+│  ├─ robots.txt
+│  ├─ sitemap.xml
+│  ├─ security.txt
+│  └─ humans.txt
+├─ src/
+│  ├─ app/                     # app shell + providers
+│  │  ├─ App.jsx
+│  │  └─ providers/            # analytics, motion, theme providers
+│  │     ├─ AnalyticsProvider.jsx
+│  │     └─ MotionProvider.jsx
+│  ├─ sections/                # page sections in order of appearance
+│  │  ├─ Hero/
+│  │  │  ├─ Hero.jsx
+│  │  │  └─ Hero.gsap.js      # timeline for this section only
+│  │  ├─ TestimonialsBar/
+│  │  │  └─ TestimonialsBar.jsx
+│  │  ├─ ProblemsSection/
+│  │  │  └─ ProblemsSection.jsx
+│  │  ├─ SolutionsSection/
+│  │  │  └─ SolutionsSection.jsx
+│  │  ├─ ServicesSection/
+│  │  │  └─ ServicesSection.jsx
+│  │  ├─ DeliverabilitySection/
+│  │  │  └─ DeliverabilitySection.jsx
+│  │  └─ CTASection/
+│  │     └─ CTASection.jsx
+│  ├─ components/              # small, reusable UI primitives
+│  │  ├─ Button.jsx
+│  │  ├─ Container.jsx
+│  │  ├─ LogoRow.jsx
+│  │  ├─ Navigation.jsx
+│  │  └─ SectionTitle.jsx
+│  ├─ animation/               # GSAP hooks & shared timelines
+│  │  ├─ useGSAP.js
+│  │  ├─ scroll.js             # helpers (pin, scrub, reduced-motion guards)
+│  │  └─ timelines/            # cross-section sequences (currently empty)
+│  ├─ spline/                  # 3D is isolated and optional
+│  │  ├─ SplineScene.jsx       # lazy-loaded, respects reduced motion
+│  │  └─ assets/               # .spline or poster images (currently empty)
+│  ├─ lib/                     # utilities that aren't React-specific
+│  │  ├─ analytics.js          # PostHog init + capture helpers
+│  │  ├─ seo.js                # build JSON-LD, meta tags (if needed)
+│  │  └─ utm.js                # UTM registration + storage
+│  ├─ hooks/                   # generic React hooks
+│  │  ├─ useUTM.js
+│  │  └─ useReducedMotionPref.js
+│  ├─ styles/
+│  │  ├─ index.css             # Tailwind base + tokens
+│  │  └─ prose.css             # long-form rules if needed
+│  ├─ data/                    # tiny JSON/config for content tokens
+│  │  ├─ links.json            # scheduler, typeform, social
+│  │  └─ metrics.json          # anonymized proof numbers
+│  └─ main.jsx                 # React entry
+├─ .env.example
+├─ assets/                  # static assets (fonts, images, icons)
+├─ eslint.config.js         # ESLint configuration
+│  ├─ fonts/
+│  └─ images/
+│     ├─ clients/
+│     ├─ hero/
+│     ├─ icons/
+│     └─ logos/
+├─ dist/                    # build output (generated)
+├─ git backups/             # backup files (not in production)
+├─ index.html               # meta/OG/LD+JSON; React mount
+├─ package.json
+├─ postcss.config.js
+├─ resources/               # additional resources
+├─ server.js                # Express server
+├─ tailwind.config.js
+├─ vite.config.js
+└─ README.md
+```
+
+## 🎯 Import Aliases
+
+Use these aliases for clean imports throughout the project:
+
+```javascript
+// Vite config aliases
+'@app': 'src/app'
+'@sections': 'src/sections'
+'@components': 'src/components'
+'@animation': 'src/animation'
+'@spline': 'src/spline'
+'@lib': 'src/lib'
+'@hooks': 'src/hooks'
+'@data': 'src/data'
+'@styles': 'src/styles'
+```
+
+## 📋 Organization Rules
+
+### **Sections Directory (`src/sections/`)**
+- Each section gets its own folder
+- Contains: `SectionName.jsx`, `SectionName.gsap.js` (optional)
+- Sections are in order of appearance on the page
+- Each section is self-contained with its own animations
+
+### **Components Directory (`src/components/`)**
+- Small, reusable UI primitives only
+- Generic components that can be used across sections
+- Examples: Button, Container, LogoRow, Navigation, SectionTitle
+- No section-specific logic
+
+### **Animation Directory (`src/animation/`)**
+- GSAP hooks and shared utilities
+- `useGSAP.js` - main GSAP hook
+- `scroll.js` - scroll helpers and utilities
+- `timelines/` - cross-section animation sequences
+
+### **Spline Directory (`src/spline/`)**
+- 3D scenes and assets isolated
+- `SplineScene.jsx` - main 3D component
+- `assets/` - .spline files and poster images
+- Respects reduced motion preferences
+
+### **Lib Directory (`src/lib/`)**
+- Non-React utilities
+- `analytics.js` - PostHog integration
+- `seo.js` - SEO utilities and JSON-LD
+- `utm.js` - UTM parameter handling
+
+### **Hooks Directory (`src/hooks/`)**
+- Generic React hooks
+- `useUTM.js` - UTM parameter hook
+- `useReducedMotionPref.js` - motion preference hook
+
+### **Data Directory (`src/data/`)**
+- JSON configuration files
+- `links.json` - external links and tokens
+- `metrics.json` - proof numbers and metrics
+
+### **Styles Directory (`src/styles/`)**
+- CSS files and styling
+- `index.css` - Tailwind base and custom styles
+- `prose.css` - long-form content styles
+
+## 🔧 File Naming Conventions
+
+### **React Components**
+- **Sections**: `PascalCase.jsx` (e.g., `Hero.jsx`)
+- **Components**: `PascalCase.jsx` (e.g., `Button.jsx`)
+- **Hooks**: `useCamelCase.js` (e.g., `useReducedMotionPref.js`)
+
+### **Animation Files**
+- **GSAP Files**: `SectionName.gsap.js` (e.g., `Hero.gsap.js`)
+- **Animation Hooks**: `useGSAP.js`
+
+### **Utility Files**
+- **Library Files**: `camelCase.js` (e.g., `analytics.js`)
+- **Data Files**: `camelCase.json` (e.g., `links.json`)
+
+### **Configuration Files**
+- **Config Files**: `kebab-case.config.js` (e.g., `vite.config.js`)
+- **Environment**: `.env.example`
+
+## 🎨 GSAP Animation Pattern
+
+### **Section-Specific Animations**
+```javascript
+// src/sections/Hero/Hero.gsap.js
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { createTimeline, createPinnedSection } from '@animation/scroll'
+
+export function buildHeroTimeline(root) {
+  const ctx = gsap.context(() => {
+    const tl = createTimeline({ defaults: { ease: 'power2.out', duration: 0.6 } })
+    
+    tl.from('[data-hero-title]', { y: 24, opacity: 0 })
+      .from('[data-hero-sub]', { y: 16, opacity: 0 }, '-=0.3')
+      .from('[data-hero-cta]', { y: 8, opacity: 0 }, '-=0.2')
+
+    createPinnedSection(root, {
+      start: 'top top',
+      end: '+=1200',
+      scrub: 0.2
+    })
+  }, root)
+  
+  return ctx
+}
+```
+
+### **Section Component Pattern**
+```javascript
+// src/sections/Hero/Hero.jsx
+import React, { useRef, useEffect } from 'react'
+import { buildHeroTimeline } from './Hero.gsap'
+import { useReducedMotionPref } from '@hooks/useReducedMotionPref'
+
+export default function Hero() {
+  const ref = useRef(null)
+  const prefersReduced = useReducedMotionPref()
+
+  useEffect(() => {
+    if (prefersReduced) return
+    const ctx = buildHeroTimeline(ref.current)
+    return () => ctx.revert()
+  }, [prefersReduced])
+
+  return (
+    <section ref={ref} id="hero" className="relative">
+      {/* hero content with data attributes */}
+    </section>
+  )
+}
+```
+
+## 🚀 Spline 3D Pattern
+
+### **Progressive Enhancement**
+```javascript
+// src/spline/SplineScene.jsx
+import React, { Suspense, useEffect, useState } from 'react'
+import { useReducedMotionPref } from '@hooks/useReducedMotionPref'
+
+export default function SplineScene() {
+  const [ok, setOk] = useState(false)
+  const prefersReduced = useReducedMotionPref()
+
+  useEffect(() => {
+    if (prefersReduced) return
+    const t = setTimeout(() => setOk(true), 600) // delay for LCP
+    return () => clearTimeout(t)
+  }, [prefersReduced])
+
+  if (!ok) {
+    return <img src="/hero-poster.jpg" alt="" loading="eager" />
+  }
+
+  const Spline = React.lazy(() => import('@splinetool/react-spline'))
+  return (
+    <Suspense fallback={<img src="/hero-poster.jpg" alt="" />}>
+      <Spline scene="/spline/scene.splinecode" />
+    </Suspense>
+  )
+}
+```
+
+## 📊 Analytics Integration
+
+### **Tracking Pattern**
+```javascript
+// In any component
+import { track, TRACKING_EVENTS } from '@lib/analytics'
+
+const handleCTAClick = () => {
+  track(TRACKING_EVENTS.CTA_CLICK, { location: 'hero' })
+}
+```
+
+## 🔧 Development Guidelines
+
+### **When Adding New Sections**
+1. Create folder in `src/sections/SectionName/`
+2. Add `SectionName.jsx` component
+3. Add `SectionName.gsap.js` if animations needed
+4. Import in `src/app/App.jsx`
+5. Use data attributes for GSAP targeting
+
+### **When Adding New Components**
+1. Create in `src/components/ComponentName.jsx`
+2. Make it reusable and generic
+3. Export as default
+4. Import using `@components/ComponentName`
+
+### **When Adding New Utilities**
+1. Create in `src/lib/utilityName.js`
+2. Export named functions
+3. Import using `@lib/utilityName`
+
+### **Performance Rules**
+- Animate only `transform` and `opacity` properties
+- Respect `prefers-reduced-motion`
+- Lazy-load 3D scenes
+- Use GSAP context for cleanup
+- Keep animations contained within sections
+
+### **SEO Rules**
+- Use semantic HTML structure
+- Include proper heading hierarchy
+- Add data attributes for animations
+- Implement proper meta tags
+- Use structured data (JSON-LD)
+
+## 🎯 Quick Reference
+
+### **Common Imports**
+```javascript
+// Sections
+import Hero from '@sections/Hero/Hero'
+
+// Components  
+import Button from '@components/Button'
+import Container from '@components/Container'
+
+// Animation
+import { useGSAP } from '@animation/useGSAP'
+import { createTimeline } from '@animation/scroll'
+
+// Hooks
+import { useReducedMotionPref } from '@hooks/useReducedMotionPref'
+import { useUTM } from '@hooks/useUTM'
+
+// Lib
+import { track, TRACKING_EVENTS } from '@lib/analytics'
+import { generateJSONLD } from '@lib/seo'
+
+// Data
+import links from '@data/links.json'
+import metrics from '@data/metrics.json'
+```
+
+This structure ensures clean separation of concerns, maintainable code, and optimal performance for the HiFiCopy website.
