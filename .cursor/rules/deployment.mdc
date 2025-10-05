@@ -1,6 +1,6 @@
-
 alwaysApply: true
 description: AXOLOP — Shopify Deployment Rules (Git backup + GitHub + Theme publish)
+
 ---
 
 # 🚀 Deployment Process (Single Source of Truth)
@@ -21,11 +21,13 @@ description: AXOLOP — Shopify Deployment Rules (Git backup + GitHub + Theme pu
 ## 🚀 Streamlined Deployment Workflow (PROVEN SUCCESSFUL)
 
 ### **Option 1: Full Deployment (Recommended)**
+
 ```bash
 ./scripts/deploy.sh v1.3.0 "Analyzer hero copy + comparison table perf"
 ```
 
 ### **Option 2: Quick Deployment (Auto-increment patch)**
+
 ```bash
 ./scripts/quick-deploy.sh "Fixed mobile CTA styling"
 ```
@@ -39,6 +41,7 @@ description: AXOLOP — Shopify Deployment Rules (Git backup + GitHub + Theme pu
 5. ✅ **QA Ready**: Provides instructions for final publishing
 
 ### **Git Backups Folder Structure:**
+
 ```
 git-backups/
 ├── backup-20251004-235125-v1.0.0-pilot/
@@ -54,6 +57,7 @@ git-backups/
 ```
 
 ### **Manual Steps After Script:**
+
 1. **QA Draft Theme**: Test in Shopify Admin → Online Store → Themes
 2. **Publish**: Use Shopify Admin or CLI to publish the draft
 3. **Cleanup**: Commit settings snapshot post-publish
@@ -63,6 +67,7 @@ git-backups/
 ## 🧭 Manual Deployment (if scripts unavailable)
 
 1. **Create git backups folder structure (PRIORITY)**
+
    ```bash
    mkdir -p git-backups
    BACKUP_FOLDER="git-backups/backup-$(date +%Y%m%d-%H%M%S)-$VERSION"
@@ -70,13 +75,14 @@ git-backups/
    ```
 
 2. **Pull latest & verify clean tree**
+
    ```bash
    git checkout main
    git pull origin main
    git status   # working tree must be clean
-   ````
+   ```
 
-2. **Set version variables**
+3. **Set version variables**
 
    ```bash
    export VERSION=vX.Y.Z       # e.g., v1.3.0
@@ -84,13 +90,13 @@ git-backups/
    export SUMMARY="Analyzer landing – copy tweaks & comparison table perf"
    ```
 
-3. **Create release branch**
+4. **Create release branch**
 
    ```bash
    git checkout -b release/$VERSION
    ```
 
-4. **Build/check theme locally (optional asset build)**
+5. **Build/check theme locally (optional asset build)**
 
    ```bash
    # If using Tailwind/Vite, run build here so final files are in /assets
@@ -98,9 +104,9 @@ git-backups/
    shopify theme validate || true
    ```
 
-5. **Update CHANGELOG**
+6. **Update CHANGELOG**
 
-   * Append a new section at top of `CHANGELOG.md`:
+   - Append a new section at top of `CHANGELOG.md`:
 
      ```
      ## $VERSION — $TODAY
@@ -108,7 +114,8 @@ git-backups/
      - Notes: Any schema changes, section adds/removes, and app config updates.
      ```
 
-6. **Create complete repository backup**
+7. **Create complete repository backup**
+
    ```bash
    git bundle create "$BACKUP_FOLDER/complete-repo.bundle" --all
    git log --oneline > "$BACKUP_FOLDER/commit-history.txt"
@@ -121,7 +128,7 @@ git-backups/
    EOF
    ```
 
-7. **Commit, backup tag, and push to GitHub**
+8. **Commit, backup tag, and push to GitHub**
 
    ```bash
    git add -A
@@ -134,20 +141,20 @@ git-backups/
    git push origin backup/$TODAY-$VERSION
    ```
 
-8. **Open PR → Merge to `main`**
+9. **Open PR → Merge to `main`**
 
-   * Create PR `release/$VERSION` → `main`
-   * Require checks: build passes, Lint OK, preview QA approved
-   * Merge (Squash or Merge—be consistent)
+   - Create PR `release/$VERSION` → `main`
+   - Require checks: build passes, Lint OK, preview QA approved
+   - Merge (Squash or Merge—be consistent)
 
-9. **Sync `main` locally**
+10. **Sync `main` locally**
 
-   ```bash
-   git checkout main
-   git pull origin main
-   ```
+    ```bash
+    git checkout main
+    git pull origin main
+    ```
 
-10. **Deploy to Shopify (draft theme first)**
+11. **Deploy to Shopify (draft theme first)**
 
     ```bash
     # Login once per machine
@@ -157,15 +164,15 @@ git-backups/
     shopify theme push --unpublished --path .
     ```
 
-11. **QA the draft in the Dev Store**
+12. **QA the draft in the Dev Store**
 
-    * Verify **Analyzer landing page** (`/pages/analyzer`)
-    * Check: hero CTAs, cart drawer, free trial flow, Klaviyo events, pixels, mobile nav, speed
+    - Verify **Analyzer landing page** (`/pages/analyzer`)
+    - Check: hero CTAs, cart drawer, free trial flow, Klaviyo events, pixels, mobile nav, speed
 
-12. **Publish the draft**
+13. **Publish the draft**
 
-    * Shopify Admin → Online Store → Themes → Actions → **Publish**
-    * Export `config/settings_data.json` snapshot post-publish and commit:
+    - Shopify Admin → Online Store → Themes → Actions → **Publish**
+    - Export `config/settings_data.json` snapshot post-publish and commit:
 
       ```bash
       git add config/settings_data.json
@@ -186,34 +193,34 @@ shopify theme push --unpublished --path . --message "rollback: v1.2.3"
 # Publish the draft from Admin after quick QA
 ```
 
-*You can also pull a dated backup tag: `backup/YYYY-MM-DD-vX.Y.Z`.*
+_You can also pull a dated backup tag: `backup/YYYY-MM-DD-vX.Y.Z`._
 
 ---
 
 ## 🧪 Pre-Deploy QA (must pass)
 
-* **Functional:** trial add-to-cart → license delivery email, subscription add, thank-you page links
-* **CRO:** sticky CTA visible, comparison table scrollable on mobile, final CTA present
-* **Pixels/Events:** GA4, Meta, TikTok firing; Klaviyo `trial_started`, `license_issued`
-* **Perf:** no console errors; LCP target met; images lazy-loaded
-* **SEO:** unique title/description; JSON-LD valid; alt text present
-* **A11y:** keyboard nav, focus states, contrast (AA)
+- **Functional:** trial add-to-cart → license delivery email, subscription add, thank-you page links
+- **CRO:** sticky CTA visible, comparison table scrollable on mobile, final CTA present
+- **Pixels/Events:** GA4, Meta, TikTok firing; Klaviyo `trial_started`, `license_issued`
+- **Perf:** no console errors; LCP target met; images lazy-loaded
+- **SEO:** unique title/description; JSON-LD valid; alt text present
+- **A11y:** keyboard nav, focus states, contrast (AA)
 
 ---
 
 ## 🗂 Repo Hygiene
 
-* Branches: `main`, `dev`, `feat/*`, `fix/*`, `release/*`
-* Do **not** commit large binaries. Optimize images to `.webp`/`.avif`
-* Keep **`/assets` final** (compiled) files; build steps generate/overwrite them
-* Changes to `settings_schema.json` require testing section settings in the editor
+- Branches: `main`, `dev`, `feat/*`, `fix/*`, `release/*`
+- Do **not** commit large binaries. Optimize images to `.webp`/`.avif`
+- Keep **`/assets` final** (compiled) files; build steps generate/overwrite them
+- Changes to `settings_schema.json` require testing section settings in the editor
 
 ---
 
 ## 🔐 Secrets & Access
 
-* Never commit API keys. Pixels load via **theme settings** or app embeds
-* Shopify store access is managed in Admin; CLI uses Shopify login flow
+- Never commit API keys. Pixels load via **theme settings** or app embeds
+- Shopify store access is managed in Admin; CLI uses Shopify login flow
 
 ---
 
@@ -256,9 +263,10 @@ echo "  shopify theme push --unpublished --message \"$VERSION — $SUMMARY\""
 
 ## 📌 Notes
 
-* **No Vercel.** Deployment is **GitHub + Shopify Theme** only.
-* **Dev store previews auto-update** when you push a draft theme.
-* Always create the **dated backup tag** before any publish.
+- **No Vercel.** Deployment is **GitHub + Shopify Theme** only.
+- **Dev store previews auto-update** when you push a draft theme.
+- Always create the **dated backup tag** before any publish.
 
 ```
+
 ```

@@ -43,6 +43,11 @@ This site functions as both:
 - **Digital delivery app** (SendOwl, Sky Pilot, or Mechanic) for license delivery
 - **PostHog** for event tracking (`trial_started`, `license_sent`, `upgrade_clicked`)
 - **SEO:** JSON-LD `SoftwareApplication` schema, alt text, and performance-optimized assets
+
+### 🎨 Brand Assets
+
+- **Logo for white backgrounds:** `assets/images/axolop-logo.png` - Use this logo file for all white/light background applications
+- **Header logo:** Configured in Shopify Admin → Online Store → Themes → Customize → Header settings
 - **CRO:** sticky CTA, comparison table, A/B hero sections, trust indicators, and reviews.
 
 **Page Template:** `page.analyzer.json`  
@@ -81,7 +86,7 @@ Hero CTA → Free Trial (email/license) → Nurture → Upgrade to Subscription
 | ---------------------- | ---------------------------------------------- |
 | Primary Background     | #0B0B0C                                        |
 | Text                   | #FFFFFF                                        |
-| Accent (Axolop Orange) | #FF6A00                                        |
+| Accent (Axolop Orange) | #FF411F                                        |
 | Secondary Panel        | #1E1E22                                        |
 | Muted Text             | #A7A7AD                                        |
 | Fonts                  | Söhne / Space Grotesk / Inter / JetBrains Mono |
@@ -134,7 +139,7 @@ Every deploy creates a **Git backup** with today's date + semantic version, push
 1. All Shopify code changes must be **clean, modular, and section-based**.
 2. No inline scripts for tracking; use theme.liquid or JSON templates.
 3. Prioritize **load speed, conversion rate, and design cohesion**.
-4. Maintain **brand color (#FF6A00)** for all accent states (hover, active, button).
+4. Maintain **brand color (#FF411F)** for all accent states (hover, active, button).
 5. Optimize for **Klaviyo lead capture** and **trial conversion** first—sales second.
 6. Always reference Axolop as a **premium pro-audio company** — not a consumer plugin shop.
 7. Keep tone consistent with brands like FabFilter, Soundtoys, and Universal Audio.

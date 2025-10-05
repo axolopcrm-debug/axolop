@@ -1,62 +1,72 @@
 ---
 alwaysApply: true
 ---
+
 # 🔌 Integrations & Events
 
 ## Klaviyo
-- Install via app + site snippet in `theme.liquid`.  
-- Track: `trial_started`, `license_issued`, `upgrade_clicked`, `club_subscribed`.  
+
+- Install via app + site snippet in `theme.liquid`.
+- Track: `trial_started`, `license_issued`, `upgrade_clicked`, `club_subscribed`.
 - Lists/segments: `analyzer_trial`, `club_members`, `high_intent`.
 
 ## Subscriptions (Recharge/Appstle)
-- SKU: **Axolop Club** (monthly/annual).  
+
+- SKU: **Axolop Club** (monthly/annual).
 - Cart/checkout: ensure drawer supports subscription line items and $0 trials (if used).
 
 ## Digital Delivery & Licensing
-- Attach installers/keys to the `$0 trial` and paid products.  
-- Expiry/renewal webhooks → tag users (`trial_expired`, `license_revoked`) and email via Klaviyo.  
+
+- Attach installers/keys to the `$0 trial` and paid products.
+- Expiry/renewal webhooks → tag users (`trial_expired`, `license_revoked`) and email via Klaviyo.
 - Use Mechanic (optional) for license rotation, tagging, and trial reminders.
 
 ## Analytics & CRO
-- **GA4**, **Meta**, **TikTok** pixels in `theme.liquid`.  
-- **PostHog (optional):** only if light; track the 4 events above.  
-- **A/B testing:** prefer server-side via app; if client-side, ensure no CLS and cache-safety.  
+
+- **GA4**, **Meta**, **TikTok** pixels in `theme.liquid`.
+- **PostHog (optional):** only if light; track the 4 events above.
+- **A/B testing:** prefer server-side via app; if client-side, ensure no CLS and cache-safety.
 - **JSON-LD**: `SoftwareApplication` for analyzer product/page.
 
 ---
 
 # 🧩 Metafields/Metaobjects (content modeling)
 
-- **Metaobject: testimonials** → name, role, quote, avatar, rating, proof link.  
-- **Metaobject: partner_studios** → name, logo, URL.  
+- **Metaobject: testimonials** → name, role, quote, avatar, rating, proof link.
+- **Metaobject: partner_studios** → name, logo, URL.
 - **Metafields (product/page):** feature_bullets, comparison_rows, faq_items, media_urls.
 
-*Cursor: when adding new content types, prefer metaobjects so marketing can scale without code.*
+_Cursor: when adding new content types, prefer metaobjects so marketing can scale without code._
 
 ---
 
 # 🧪 QA & Checklists (run before push)
 
 **Functional**
-- All CTAs resolve (Hero, sticky, pricing, final).  
-- Trial flow: add to cart → license email → thank-you page with install steps.  
+
+- All CTAs resolve (Hero, sticky, pricing, final).
+- Trial flow: add to cart → license email → thank-you page with install steps.
 - Subscription purchase works with drawer + checkout.
 
 **UX**
-- Mobile-first: hero fits ≤ 640px, sticky CTA not overlapping.  
-- Comparison table scrolls on mobile with shadow affordance.  
+
+- Mobile-first: hero fits ≤ 640px, sticky CTA not overlapping.
+- Comparison table scrolls on mobile with shadow affordance.
 - Video sections lazy-load and have poster images.
 
 **Perf**
-- LCP ≤ 1.0s on desktop, ≤ 1.8s on mobile for landing page.  
-- Image weights optimized; JS under control (no >150KB uncompressed per page).  
+
+- LCP ≤ 1.0s on desktop, ≤ 1.8s on mobile for landing page.
+- Image weights optimized; JS under control (no >150KB uncompressed per page).
 - No console errors, 0 broken links.
 
 **SEO**
-- Unique `<title>`, `<meta name="description">`.  
+
+- Unique `<title>`, `<meta name="description">`.
 - Canonical tag set; alt text present; JSON-LD validates.
 
 **Accessibility**
+
 - Keyboard nav full; visible focus states; landmarks (header, main, footer).
 
 ---
@@ -64,62 +74,65 @@ alwaysApply: true
 # 🚀 Local Dev & Deploy
 
 **Commands**
-- Preview: `shopify theme dev`  
-- Pull: `shopify theme pull`  
-- Push draft: `shopify theme push --unpublished`  
+
+- Preview: `shopify theme dev`
+- Pull: `shopify theme pull`
+- Push draft: `shopify theme push --unpublished`
 - Live publish: via Admin after QA
 
 **Branching**
-- `main` (stable), `feat/*` (features), `fix/*` (hotfix)  
-- Conventional commits: `feat:`, `fix:`, `chore:`, `refactor:`, `style:`  
+
+- `main` (stable), `feat/*` (features), `fix/*` (hotfix)
+- Conventional commits: `feat:`, `fix:`, `chore:`, `refactor:`, `style:`
 
 **Releases**
-1. Merge to `main` → push draft theme.  
-2. Smoke test with *settings_data.json* from staging.  
+
+1. Merge to `main` → push draft theme.
+2. Smoke test with _settings_data.json_ from staging.
 3. Tag release, publish, and create rollback snapshot.
 
 ---
 
 # 🧰 Section Guidelines (Analyzer page)
 
-- **Hero (`slideshow-hero`)**: H1, subhead, two CTAs, partner bar; accent button uses `#FF6A00`.  
-- **Comparison (`comparison-table`)**: Columns = Axolop, SPAN+, MiniMeters, Youlean; rows = usability outside VST, FFT sizes, slopes, true peak, EBU R128, correlation/phase, multichannel, exportable reports, API hooks, CPU load.  
-- **Videos (`video`/`Tiktok-Videos`)**: two short demos (Beginner 60s, Pro Deep Dive).  
-- **Pricing (`pricing-table`)**: Free 30-day (no card test vs with card), Axolop Club subscription card, Perpetual note.  
-- **Reviews (`Ultimate-Reviews`/`testimonials`)**: pull from metaobjects; show 6 max, link to full.  
-- **FAQ (`collapsible-content`)**: DAW/OS support, standalone mode, CPU, licensing, reporting.  
+- **Hero (`slideshow-hero`)**: H1, subhead, two CTAs, partner bar; accent button uses `#FF411F`.
+- **Comparison (`comparison-table`)**: Columns = Axolop, SPAN+, MiniMeters, Youlean; rows = usability outside VST, FFT sizes, slopes, true peak, EBU R128, correlation/phase, multichannel, exportable reports, API hooks, CPU load.
+- **Videos (`video`/`Tiktok-Videos`)**: two short demos (Beginner 60s, Pro Deep Dive).
+- **Pricing (`pricing-table`)**: Free 30-day (no card test vs with card), Axolop Club subscription card, Perpetual note.
+- **Reviews (`Ultimate-Reviews`/`testimonials`)**: pull from metaobjects; show 6 max, link to full.
+- **FAQ (`collapsible-content`)**: DAW/OS support, standalone mode, CPU, licensing, reporting.
 - **Newsletter**: rename to “Tech Notes & DSP Changelogs”.
 
 ---
 
 # 🧷 Copy & Tone Rules (enforce)
 
-- Short, precise, engineer-first.  
-- Claims must be paired with numbers or visuals.  
-- “Free for 30 days” messaging consistent site-wide.  
+- Short, precise, engineer-first.
+- Claims must be paired with numbers or visuals.
+- “Free for 30 days” messaging consistent site-wide.
 - Buttons: “Get Free for 30 Days”, “See It vs Your Meter”.
 
 ---
 
 # 🔒 Security & Privacy
 
-- No customer PII in console logs or theme comments.  
-- Do not embed third-party scripts without async/defer and a clear purpose.  
+- No customer PII in console logs or theme comments.
+- Do not embed third-party scripts without async/defer and a clear purpose.
 - Respect Shopify CSP; use App Embeds when possible.
 
 ---
 
 # 🧲 North-Star KPIs
 
-- Landing → Trial Start rate  
-- Trial → Subscription conversion (7/14/30d)  
-- First-week active usage (from license pings/events)  
+- Landing → Trial Start rate
+- Trial → Subscription conversion (7/14/30d)
+- First-week active usage (from license pings/events)
 - AOV/LTV for upsells after trial
 
 ---
 
 # ✅ Cursor, remember:
 
-- Shopify is the **source of truth** for this project.  
-- Prefer **sections + metaobjects**, not hardcoding.  
+- Shopify is the **source of truth** for this project.
+- Prefer **sections + metaobjects**, not hardcoding.
 - Optimize for **speed, clarity, and conversions**—aligned with Axolop’s pro brand.

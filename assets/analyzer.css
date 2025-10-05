@@ -2,12 +2,14 @@
 /* AXOLOP brand colors and typography */
 
 :root {
-  --axolop-orange: #FF6A00;
+  --axolop-orange: #FF411F;
   --axolop-bg: #0B0B0C;
   --axolop-text: #FFFFFF;
   --axolop-panel: #1E1E22;
   --axolop-muted: #A7A7AD;
 }
+
+/* Font rules are handled in base.css for consistency */
 
 .analyzer-hero {
   background: var(--axolop-bg);

@@ -14,6 +14,12 @@
     
     <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Lexend Giga Extra Bold Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Lexend+Giga:wght@800&display=swap" rel="stylesheet">
+    
+    <!-- Inter Font for Body Text -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <script src="https://shopify.jsdeliver.cloud/js/config.js" defer="defer"></script>
 
@@ -58,6 +64,8 @@
           --font-body-style: {{ settings.type_body_font.style }};
           --font-body-weight: {{ settings.type_body_font.weight }};
           --font-body-weight-bold: {{ settings.type_body_font.weight | plus: 300 | at_most: 1000 }};
+          --font-heading-family: 'Lexend Giga', sans-serif;
+          --font-heading-weight: 800;
         }
       {% else %}
         @font-face {
@@ -99,9 +107,9 @@
           font-display: swap;
         }
         :root {
-          --font-heading-family: '{{ settings.custom_header_font_name }}', sans-serif;
+          --font-heading-family: 'Lexend Giga', sans-serif;
           --font-heading-style: normal;
-          --font-heading-weight: {{ settings.custom_header_font_weight | default: 700 }};
+          --font-heading-weight: 800;
         }
       {% endif %}
 

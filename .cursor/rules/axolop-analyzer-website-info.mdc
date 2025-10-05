@@ -10,6 +10,7 @@ description: AXOLOP Analyzer Landing Page and Brand Overview
 **Purpose:** Launch the first Axolop plugin — a next-generation audio analyzer — as a free 30-day lead magnet and flagship proof of quality for the Axolop brand.
 
 This site functions as both:
+
 1. A **marketing funnel** optimized for conversions, email capture, and MRR growth (Klaviyo, subscription upsells, A/B testing).
 2. A **brand experience** that defines Axolop’s aesthetic and credibility in the pro-audio world.
 
@@ -21,6 +22,7 @@ This site functions as both:
 **Goal:** The most advanced, usable, and visually beautiful audio analyzer on the market.
 
 ### Product Principles
+
 - Outperforms **MiniMeters**, **SPAN Plus**, and **Youlean Loudness Meter** in clarity, accuracy, and interface.
 - Designed for **pro-audio engineers**, **mixers**, and **producers** who need both usability and precision.
 - Works **inside a DAW (VST/AU)** and as a **standalone desktop app**.
@@ -31,7 +33,7 @@ This site functions as both:
   - Multi-band histograms, EBU R128 graphs, and exportable reports
 - Simple by default → complex on demand. The best UI for both beginners and professionals.
 
-**Tagline:** *“The Analyzer That Replaces Them All.”*
+**Tagline:** _“The Analyzer That Replaces Them All.”_
 
 ---
 
@@ -39,6 +41,7 @@ This site functions as both:
 
 **Theme Type:** Online Store 2.0  
 **Tech Stack Includes:**
+
 - **Liquid + JSON Templates** for modular sections
 - **Klaviyo** integration for lead capture, email automation, and trial nurturing
 - **Subscription app** (Recharge or Appstle) for “Axolop Club”
@@ -63,29 +66,33 @@ Hero CTA → Free Trial (email/license) → Nurture → Upgrade to Subscription
 **Long-Term Goal:** Compete directly with **Waves Audio** and **UAD**, but earn the reputation of **FabFilter**.
 
 ### Brand Pillars
-1. **Pro-first, not prosumer.** Built for real engineers and mixers.  
-2. **Brutal usability.** Every control exists for a reason. Zero clutter.  
-3. **Aesthetic minimalism.** Modern black/white interface with a unique orange accent.  
-4. **Authentic trust.** Transparent DSP, real benchmark data, and open changelogs.  
+
+1. **Pro-first, not prosumer.** Built for real engineers and mixers.
+2. **Brutal usability.** Every control exists for a reason. Zero clutter.
+3. **Aesthetic minimalism.** Modern black/white interface with a unique orange accent.
+4. **Authentic trust.** Transparent DSP, real benchmark data, and open changelogs.
 5. **Global presence.** Partnered studios, influencer reviews, education licensing, and community.
 
 ### Tone & Copy
-- Confident, technical, and calm.  
-- Speak like a seasoned audio engineer, not a marketer.  
-- Avoid superlatives unless backed by data.  
-- When making claims, *show numbers or visuals*.
+
+- Confident, technical, and calm.
+- Speak like a seasoned audio engineer, not a marketer.
+- Avoid superlatives unless backed by data.
+- When making claims, _show numbers or visuals_.
 
 ### Visual Identity
-| Element | Specification |
-|----------|----------------|
-| Primary Background | #0B0B0C |
-| Text | #FFFFFF |
-| Accent (Axolop Orange) | #FF6A00 |
-| Secondary Panel | #1E1E22 |
-| Muted Text | #A7A7AD |
-| Fonts | Söhne / Space Grotesk / Inter / JetBrains Mono |
-| UI Shape | Soft 6–8px corners, 8/12pt grid system |
-| Iconography | Thin-line, high-contrast numerics |
+
+| Element                 | Specification                                                                                                   |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------- |
+| Primary Background      | #0B0B0C                                                                                                         |
+| Text                    | #FFFFFF                                                                                                         |
+| Accent (Axolop Orange)  | #FF411F                                                                                                         |
+| Secondary Panel         | #1E1E22                                                                                                         |
+| Muted Text              | #A7A7AD                                                                                                         |
+| Fonts                   | **Headers: Lexend Giga Extra Bold (800) with -15% letter spacing** / **Body: Inter** / **Mono: JetBrains Mono** |
+| UI Shape                | Soft 6–8px corners, 8/12pt grid system                                                                          |
+| Iconography             | Thin-line, high-contrast numerics                                                                               |
+| Logo (White Background) | `assets/images/axolop-logo.png` - Use for all white/light backgrounds                                           |
 
 ---
 
@@ -94,32 +101,35 @@ Hero CTA → Free Trial (email/license) → Nurture → Upgrade to Subscription
 **Market:** Professional and semi-professional audio engineers, mastering houses, producers.  
 **Segment Gap:** Existing analyzers are either overly complex (SPAN) or too basic (MiniMeters). Axolop bridges both worlds.  
 **Revenue Model:** Subscription-first, freemium entry → MRR and retention-driven model.  
-**Distribution Strategy:**  
-- Free analyzer as lead magnet  
-- Bundle releases (AXL-A1, AXL-D1, AXL-C1, etc.)  
-- Influencer partnerships and studio collaborations  
+**Distribution Strategy:**
+
+- Free analyzer as lead magnet
+- Bundle releases (AXL-A1, AXL-D1, AXL-C1, etc.)
+- Influencer partnerships and studio collaborations
 - Educational licensing and referral bonuses
 
 ---
 
 # ⚙️ Development Rules (Cursor should always remember)
 
-1. All Shopify code changes must be **clean, modular, and section-based**.  
-2. No inline scripts for tracking; use theme.liquid or JSON templates.  
-3. Prioritize **load speed, conversion rate, and design cohesion**.  
-4. Maintain **brand color (#FF6A00)** for all accent states (hover, active, button).  
-5. Optimize for **Klaviyo lead capture** and **trial conversion** first—sales second.  
-6. Always reference Axolop as a **premium pro-audio company** — not a consumer plugin shop.  
-7. Keep tone consistent with brands like FabFilter, Soundtoys, and Universal Audio.
+1. All Shopify code changes must be **clean, modular, and section-based**.
+2. No inline scripts for tracking; use theme.liquid or JSON templates.
+3. Prioritize **load speed, conversion rate, and design cohesion**.
+4. Maintain **brand color (#FF411F)** for all accent states (hover, active, button).
+5. **CRITICAL TYPOGRAPHY:** All headers (h1-h6) MUST use **Lexend Giga Extra Bold (800)** font with **-15% letter spacing**. All body text MUST use **Inter** font. This is non-negotiable for brand consistency.
+6. Optimize for **Klaviyo lead capture** and **trial conversion** first—sales second.
+7. Always reference Axolop as a **premium pro-audio company** — not a consumer plugin shop.
+8. Keep tone consistent with brands like FabFilter, Soundtoys, and Universal Audio.
 
 ---
 
 # 💡 North Star Metric
 
-**Conversion Focus:**  
-- Free Trial → Subscription  
-- Analyzer → Axolop Club retention  
-- Maintain <1s LCP for the landing page  
+**Conversion Focus:**
+
+- Free Trial → Subscription
+- Analyzer → Axolop Club retention
+- Maintain <1s LCP for the landing page
 - Target 7%+ landing conversion rate
 
 ---
@@ -127,8 +137,8 @@ Hero CTA → Free Trial (email/license) → Nurture → Upgrade to Subscription
 # 🏁 Reminder for Cursor AI
 
 Whenever editing, writing, or generating for this project:
-- Treat Axolop as a **global pro-audio brand** competing with the industry’s elite.  
-- Prioritize **clarity, credibility, and conversion** equally.  
-- Never use gimmicky language—use technical elegance.  
-- Always build toward scalability: MRR, brand trust, and plugin suite expansion.
 
+- Treat Axolop as a **global pro-audio brand** competing with the industry’s elite.
+- Prioritize **clarity, credibility, and conversion** equally.
+- Never use gimmicky language—use technical elegance.
+- Always build toward scalability: MRR, brand trust, and plugin suite expansion.
