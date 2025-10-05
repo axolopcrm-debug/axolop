@@ -18,14 +18,63 @@ description: AXOLOP — Shopify Deployment Rules (Git backup + GitHub + Theme pu
 
 ---
 
-## 🧭 One-Page Checklist (run in order)
+## 🚀 Streamlined Deployment Workflow (PROVEN SUCCESSFUL)
 
-1. **Pull latest & verify clean tree**
+### **Option 1: Full Deployment (Recommended)**
+```bash
+./scripts/deploy.sh v1.3.0 "Analyzer hero copy + comparison table perf"
+```
+
+### **Option 2: Quick Deployment (Auto-increment patch)**
+```bash
+./scripts/quick-deploy.sh "Fixed mobile CTA styling"
+```
+
+### **What the Scripts Do Automatically (PROVEN WORKFLOW):**
+
+1. ✅ **Git Backups Folder (PRIORITY)**: Creates `git-backups/backup-YYYYMMDD-HHMMSS-vX.Y.Z/` folder with complete repository bundle
+2. ✅ **Git Backup**: Creates dated backup tag + semantic version tag
+3. ✅ **GitHub Push**: Pushes release branch, version tag, and backup tag
+4. ✅ **Shopify Deploy**: Pushes to existing theme or creates new draft (unpublished)
+5. ✅ **QA Ready**: Provides instructions for final publishing
+
+### **Git Backups Folder Structure:**
+```
+git-backups/
+├── backup-20251004-235125-v1.0.0-pilot/
+│   ├── complete-repo.bundle
+│   ├── commit-history.txt
+│   ├── git-status.txt
+│   └── backup-info.txt
+└── backup-20251004-235200-v1.0.1/
+    ├── complete-repo.bundle
+    ├── commit-history.txt
+    ├── git-status.txt
+    └── backup-info.txt
+```
+
+### **Manual Steps After Script:**
+1. **QA Draft Theme**: Test in Shopify Admin → Online Store → Themes
+2. **Publish**: Use Shopify Admin or CLI to publish the draft
+3. **Cleanup**: Commit settings snapshot post-publish
+
+---
+
+## 🧭 Manual Deployment (if scripts unavailable)
+
+1. **Create git backups folder structure (PRIORITY)**
+   ```bash
+   mkdir -p git-backups
+   BACKUP_FOLDER="git-backups/backup-$(date +%Y%m%d-%H%M%S)-$VERSION"
+   mkdir -p "$BACKUP_FOLDER"
+   ```
+
+2. **Pull latest & verify clean tree**
    ```bash
    git checkout main
    git pull origin main
    git status   # working tree must be clean
-````
+   ````
 
 2. **Set version variables**
 
@@ -59,7 +108,20 @@ description: AXOLOP — Shopify Deployment Rules (Git backup + GitHub + Theme pu
      - Notes: Any schema changes, section adds/removes, and app config updates.
      ```
 
-6. **Commit, backup tag, and push to GitHub**
+6. **Create complete repository backup**
+   ```bash
+   git bundle create "$BACKUP_FOLDER/complete-repo.bundle" --all
+   git log --oneline > "$BACKUP_FOLDER/commit-history.txt"
+   git status > "$BACKUP_FOLDER/git-status.txt"
+   cat > "$BACKUP_FOLDER/backup-info.txt" << EOF
+   Backup created: $(date)
+   Version: $VERSION
+   Summary: $SUMMARY
+   Backup folder: $BACKUP_FOLDER
+   EOF
+   ```
+
+7. **Commit, backup tag, and push to GitHub**
 
    ```bash
    git add -A
@@ -72,36 +134,35 @@ description: AXOLOP — Shopify Deployment Rules (Git backup + GitHub + Theme pu
    git push origin backup/$TODAY-$VERSION
    ```
 
-7. **Open PR → Merge to `main`**
+8. **Open PR → Merge to `main`**
 
    * Create PR `release/$VERSION` → `main`
    * Require checks: build passes, Lint OK, preview QA approved
    * Merge (Squash or Merge—be consistent)
 
-8. **Sync `main` locally**
+9. **Sync `main` locally**
 
    ```bash
    git checkout main
    git pull origin main
    ```
 
-9. **Deploy to Shopify (draft theme first)**
+10. **Deploy to Shopify (draft theme first)**
 
-   ```bash
-   # Login once per machine
-   shopify login --store your-store.myshopify.com
+    ```bash
+    # Login once per machine
+    shopify login --store your-store.myshopify.com
 
-   # Push as unpublished draft theme
-   shopify theme push --unpublished --path . \
-     --message "$VERSION — $SUMMARY"
-   ```
+    # Push as unpublished draft theme
+    shopify theme push --unpublished --path .
+    ```
 
-10. **QA the draft in the Dev Store**
+11. **QA the draft in the Dev Store**
 
     * Verify **Analyzer landing page** (`/pages/analyzer`)
     * Check: hero CTAs, cart drawer, free trial flow, Klaviyo events, pixels, mobile nav, speed
 
-11. **Publish the draft**
+12. **Publish the draft**
 
     * Shopify Admin → Online Store → Themes → Actions → **Publish**
     * Export `config/settings_data.json` snapshot post-publish and commit:

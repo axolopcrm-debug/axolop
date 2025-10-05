@@ -38,23 +38,30 @@ print_status "🚀 Starting AXOLOP deployment: $VERSION"
 print_status "📅 Date: $TODAY"
 print_status "📝 Summary: $SUMMARY"
 
-# Step 1: Verify clean working tree
+# Step 1: Create git backups folder structure (PRIORITY)
+print_status "📁 Creating git backups folder structure..."
+mkdir -p git-backups
+BACKUP_FOLDER="git-backups/backup-$(date +%Y%m%d-%H%M%S)-$VERSION"
+mkdir -p "$BACKUP_FOLDER"
+print_success "✅ Git backup folder created: $BACKUP_FOLDER"
+
+# Step 2: Verify clean working tree
 print_status "🔍 Checking git status..."
 if ! git diff --quiet || ! git diff --cached --quiet; then
     print_error "Working tree is not clean. Please commit or stash changes first."
     exit 1
 fi
 
-# Step 2: Pull latest from main
+# Step 3: Pull latest from main
 print_status "📥 Pulling latest from main..."
 git checkout main
 git pull origin main
 
-# Step 3: Create release branch
+# Step 4: Create release branch
 print_status "🌿 Creating release branch..."
 git checkout -b "release/$VERSION"
 
-# Step 4: Build assets (if needed)
+# Step 5: Build assets (if needed)
 print_status "🔨 Building assets..."
 if [ -f "package.json" ]; then
     npm run build || print_warning "Build failed, continuing..."
@@ -62,7 +69,7 @@ else
     print_status "No package.json found, skipping build step"
 fi
 
-# Step 5: Validate Shopify theme
+# Step 6: Validate Shopify theme
 print_status "✅ Validating Shopify theme..."
 if command -v shopify &> /dev/null; then
     shopify theme validate || print_warning "Theme validation failed, continuing..."
@@ -70,7 +77,7 @@ else
     print_warning "Shopify CLI not found, skipping validation"
 fi
 
-# Step 6: Update CHANGELOG
+# Step 7: Update CHANGELOG
 print_status "📝 Updating CHANGELOG..."
 [ -f CHANGELOG.md ] || touch CHANGELOG.md
 {
@@ -81,14 +88,27 @@ print_status "📝 Updating CHANGELOG..."
     cat CHANGELOG.md
 } > CHANGELOG.tmp && mv CHANGELOG.tmp CHANGELOG.md
 
-# Step 7: Commit and create tags
+# Step 8: Commit and create tags
 print_status "💾 Creating git backup and tags..."
 git add -A
 git commit -m "release: $VERSION — $SUMMARY"
 git tag -a "$VERSION" -m "$SUMMARY"
 git tag -a "backup/$TODAY-$VERSION" -m "Backup snapshot before publish"
 
-# Step 8: Push to GitHub
+# Step 9: Create complete repository backup in git-backups folder
+print_status "💾 Creating complete repository backup..."
+git bundle create "$BACKUP_FOLDER/complete-repo.bundle" --all
+git log --oneline > "$BACKUP_FOLDER/commit-history.txt"
+git status > "$BACKUP_FOLDER/git-status.txt"
+cat > "$BACKUP_FOLDER/backup-info.txt" << EOF
+Backup created: $(date)
+Version: $VERSION
+Summary: $SUMMARY
+Backup folder: $BACKUP_FOLDER
+EOF
+print_success "✅ Complete repository backup created in $BACKUP_FOLDER"
+
+# Step 10: Push to GitHub
 print_status "📤 Pushing to GitHub..."
 git push origin "release/$VERSION"
 git push origin "$VERSION"
@@ -96,13 +116,13 @@ git push origin "backup/$TODAY-$VERSION"
 
 print_success "✅ Git backup and GitHub push completed!"
 
-# Step 9: Merge to main
+# Step 11: Merge to main
 print_status "🔄 Merging to main..."
 git checkout main
 git merge "release/$VERSION" --no-ff -m "Merge release/$VERSION into main"
 git push origin main
 
-# Step 10: Deploy to Shopify
+# Step 12: Deploy to Shopify
 print_status "🛍️ Deploying to Shopify..."
 
 # Check if Shopify CLI is available
@@ -114,7 +134,7 @@ fi
 
 # Deploy as draft theme first
 print_status "📦 Pushing draft theme to Shopify..."
-shopify theme push --unpublished --path . --message "$VERSION — $SUMMARY"
+shopify theme push --unpublished --path .
 
 print_success "🎉 Deployment completed successfully!"
 print_status ""
