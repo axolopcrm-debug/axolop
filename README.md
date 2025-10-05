@@ -92,7 +92,7 @@ Hero CTA → Free Trial (email/license) → Nurture → Upgrade to Subscription
 | Accent (Axolop Orange) | #FF411F                                                                                |
 | Secondary Panel        | #1E1E22                                                                                |
 | Muted Text             | #A7A7AD                                                                                |
-| Fonts                  | **Headers: Lexend Giga Extra Bold (800)** / **Body: Inter** / **Mono: JetBrains Mono** |
+| Fonts                  | **Headers: Lexend Giga Extra Bold (800)** / **Body: Montserrat** / **Button: Montserrat Bold** / **Mono: JetBrains Mono** |
 | UI Shape               | Soft 6–8px corners, 8/12pt grid system                                                 |
 | Iconography            | Thin-line, high-contrast numerics                                                      |
 

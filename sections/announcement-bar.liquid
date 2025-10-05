@@ -16,6 +16,24 @@
     --gradient-background: {% if section.settings.custom_gradient_background != blank %}{{ section.settings.custom_gradient_background }}{% else %}{{ section.settings.custom_colors_background }}{% endif %};
     --color-foreground: {{ section.settings.custom_colors_text.red }}, {{ section.settings.custom_colors_text.green }}, {{ section.settings.custom_colors_text.blue }};
   }
+
+  .announcement-bar-{{ section.id }} .announcement-bar__message {
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 700 !important;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+  }
+
+  .announcement-bar-{{ section.id }} .announcement-bar__message span {
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 700 !important;
+  }
+
+  @media screen and (min-width: 750px) {
+    .announcement-bar-{{ section.id }} .announcement-bar__message {
+      font-size: 1.3rem;
+    }
+  }
 {%- endstyle -%}
 
 {% liquid

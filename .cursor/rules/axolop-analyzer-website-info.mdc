@@ -89,7 +89,7 @@ Hero CTA → Free Trial (email/license) → Nurture → Upgrade to Subscription
 | Accent (Axolop Orange)  | #FF411F                                                                                                         |
 | Secondary Panel         | #1E1E22                                                                                                         |
 | Muted Text              | #A7A7AD                                                                                                         |
-| Fonts                   | **Headers: Lexend Giga Extra Bold (800) with -15% letter spacing** / **Body: Inter** / **Mono: JetBrains Mono** |
+| Fonts                   | **Headers: Lexend Giga Extra Bold (800) with -15% letter spacing** / **Body: Montserrat** / **Button: Montserrat Bold** / **Mono: JetBrains Mono** |
 | UI Shape                | Soft 6–8px corners, 8/12pt grid system                                                                          |
 | Iconography             | Thin-line, high-contrast numerics                                                                               |
 | Logo (Cream Background) | `assets/images/axolop-logo.png` - Use for all cream/light backgrounds                                           |
@@ -116,7 +116,7 @@ Hero CTA → Free Trial (email/license) → Nurture → Upgrade to Subscription
 2. No inline scripts for tracking; use theme.liquid or JSON templates.
 3. Prioritize **load speed, conversion rate, and design cohesion**.
 4. Maintain **brand color (#FF411F)** for all accent states (hover, active, button).
-5. **CRITICAL TYPOGRAPHY:** All headers (h1-h6) MUST use **Lexend Giga Extra Bold (800)** font with **-15% letter spacing**. All body text MUST use **Inter** font. This is non-negotiable for brand consistency.
+5. **CRITICAL TYPOGRAPHY:** All headers (h1-h6) MUST use **Lexend Giga Extra Bold (800)** font with **-15% letter spacing**. All body text MUST use **Montserrat** font. All button text MUST use **Montserrat Bold** font. This is non-negotiable for brand consistency.
 6. **LOGO IMPLEMENTATION:** Always use `'images/axolop-logo.png' | asset_url` for Shopify compatibility. Never display "axolop" as text - only use the logo image.
 7. **ASSET MANAGEMENT:** Keep all brand assets in `assets/images/` with proper Shopify asset URL formatting.
 8. Optimize for **Klaviyo lead capture** and **trial conversion** first—sales second.

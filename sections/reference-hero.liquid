@@ -1,0 +1,801 @@
+{%- style -%}
+  {% if section.settings.transparent_header %}
+    .hero-{{ section.id }} {
+      margin-top: calc(var(--header-height) * -1);
+      --additional-padding: var(--header-height);
+    }
+    .section-header:not(.scrolled-past-header) .header-wrapper {
+      background: none;
+      transition: background 0.2s;
+      border-bottom: none;
+    }
+    .section-header:not(.scrolled-past-header) .header__icon,
+    .section-header:not(.scrolled-past-header) .header__menu-item--main {
+      --color-foreground: var(--color-base-{{ section.settings.transparent_header_text_color }});
+      transition: color 0.2s;
+    }
+    .section-header:not(.scrolled-past-header) .header__menu-item--main:hover {
+      --color-foreground: var(--color-base-{{ section.settings.transparent_header_hover_link_color }});
+      color: rgb(var(--color-foreground));
+    }
+    .section-header:not(.scrolled-past-header) .header-wrapper .header__active-menu-item-v2 {
+      --color-background: var(--color-base-{{ section.settings.transparent_header_text_color }});
+      --color-foreground: var(--color-base-{{ section.settings.transparent_header_highlighted_link_color }});
+      transition: background 0.2s, color 0.2s;
+    }
+    {% if section.settings.transparent_header_logo == 'secondary' %}
+      .section-header:not(.scrolled-past-header) .header-wrapper .header__heading-logo--main {
+        display: none;
+      }
+      .section-header:not(.scrolled-past-header) .header-wrapper .header__heading-logo--secondary {
+        display: inline-block;
+      }
+    {% endif %}
+  {% endif %}
+  {% if section.settings.hide_announcement_bars %}
+    .shopify-section-group-header-group .horizontal-ticker, .shopify-section-group-header-group .announcement-bar {
+      display: none !important;
+    }
+  {% endif %}
+
+  .section-{{ section.id }}-padding {
+    padding-top: calc({{ section.settings.padding_top | times: 0.75 | round: 0 }}px + var( --additional-padding));
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  .hero-{{ section.id }} .hero__content-container {
+    {% if section.settings.min_mobile_height_type == 'pixels' %}
+      min-height: {{ section.settings.mobile_pixels_height }}px;
+    {% elsif section.settings.min_mobile_height_type == '100vh' %}
+      min-height: 100vh;
+    {% endif %}
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: calc({{ section.settings.padding_top }}px + var( --additional-padding));
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+    .hero-{{ section.id }} .hero__content-container {
+      {% if section.settings.min_desktop_height_type == 'pixels' %}
+        min-height: {{ section.settings.desktop_pixels_height }}px;
+      {% elsif section.settings.min_desktop_height_type == '100vh' %}
+        min-height: 100vh;
+      {% endif %}
+    }
+  }
+
+  .hero-{{ section.id }} {
+    background: {{ section.settings.background_color }};
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-{{ section.id }} .hero__background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .hero-{{ section.id }} .hero__background img,
+  .hero-{{ section.id }} .hero__background video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero-{{ section.id }} .hero__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: {{ section.settings.overlay_color }};
+    opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+    z-index: 2;
+  }
+
+  .hero-{{ section.id }} .hero__content-container {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    align-items: {{ section.settings.content_vertical_position }};
+    justify-content: {{ section.settings.content_horizontal_position }};
+    text-align: {{ section.settings.content_text_alignment }};
+  }
+
+  .hero-{{ section.id }} .hero__content {
+    max-width: {{ section.settings.content_max_width }}px;
+    width: 100%;
+  }
+
+  @media screen and (max-width: 749px) {
+    .hero-{{ section.id }} .hero__content-container {
+      align-items: {{ section.settings.mobile_content_vertical_position }};
+      text-align: {{ section.settings.mobile_content_text_alignment }};
+    }
+  }
+{%- endstyle -%}
+
+<div
+  class="hero hero-{{ section.id }} animate-section animate--hidden {{ section.settings.visibility }}"
+  style="--columns-desktop:1;--columns-mobile:1;--gap-desktop:0px;--gap-mobile:0px;"
+>
+  {% if section.settings.background_image != blank or section.settings.background_video != blank %}
+    <div class="hero__background">
+      {% if section.settings.background_video != blank %}
+        <video
+          width="100%"
+          height="auto"
+          preload="metadata"
+          poster="{{ section.settings.background_video.preview_image | image_url }}"
+          loop
+          muted
+          playsinline
+          disablepictureinpicture
+          autoplay
+        >
+          {% for source in section.settings.background_video.sources %}
+            <source
+              data-src="{{ source.url }}"
+              type="{{ source.mime_type }}"
+            >
+          {% endfor %}
+        </video>
+      {% else %}
+        {%- liquid
+          assign image_height = section.settings.background_image.width | divided_by: section.settings.background_image.aspect_ratio
+          assign sizes = '100vw'
+        -%}
+        {{
+          section.settings.background_image
+          | image_url: width: 3840
+          | image_tag:
+            loading: 'auto',
+            width: section.settings.background_image.width,
+            height: image_height,
+            sizes: sizes,
+            widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840',
+            class: 'hero__background__media'
+        }}
+      {% endif %}
+      <div class="hero__overlay"></div>
+    </div>
+  {% endif %}
+
+  <div class='hero__content-container page-width{% if section.settings.full_page_width %} page-width--full{% endif %} section-{{ section.id }}-padding'>
+    <div class="hero__content color-scheme-{{ section.id }} color-{{ section.settings.color_scheme }} animate-item">
+      {% if section.settings.heading_prefix != blank %}
+        <p class="hero__heading-prefix {{ section.settings.heading_prefix_size }}">
+          {{ section.settings.heading_prefix }}
+        </p>
+      {% endif %}
+      
+      {% if section.settings.heading != blank %}
+        <h1 class="hero__heading {{ section.settings.heading_size }} title-with-highlight" style='--hightlight-color:{{ section.settings.title_highlight_color }}'>
+          {{ section.settings.heading }}
+        </h1>
+      {% endif %}
+      
+      {% if section.settings.heading_suffix != blank %}
+        <p class="hero__heading-suffix {{ section.settings.heading_prefix_size }}">
+          {{ section.settings.heading_suffix }}
+        </p>
+      {% endif %}
+      
+      {% if section.settings.text != blank %}
+        <div class="hero__text rte">
+          {{ section.settings.text }}
+        </div>
+      {% endif %}
+      
+      {% unless section.settings.button_label_1 == blank and section.settings.button_label_2 == blank %}
+        <div class="hero__buttons">
+          {%- if section.settings.button_label_1 != blank -%}
+            <a
+              {% if section.settings.button_link_1 == blank %}
+                role="link" aria-disabled="true"
+              {% else %}
+                href="{{ section.settings.button_link_1 }}"
+              {% endif %}
+              class="button{% if section.settings.button_style_secondary_1 %} button--secondary{% else %} button--primary{% endif %}"
+            >
+              {{- section.settings.button_label_1 | escape -}}
+            </a>
+          {%- endif -%}
+          {%- if section.settings.button_label_2 != blank -%}
+            <a
+              {% if section.settings.button_link_2 == blank %}
+                role="link" aria-disabled="true"
+              {% else %}
+                href="{{ section.settings.button_link_2 }}"
+              {% endif %}
+              class="button{% if section.settings.button_style_secondary_2 %} button--secondary{% else %} button--primary{% endif %}"
+            >
+              {{- section.settings.button_label_2 | escape -}}
+            </a>
+          {%- endif -%}
+        </div>
+      {% endunless %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Reference hero",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "select",
+      "id": "visibility",
+      "options": [
+        {
+          "value": "desktop-hidden",
+          "label": "Mobile only"
+        },
+        {
+          "value": "mobile-hidden",
+          "label": "Desktop only"
+        },
+        {
+          "value": "always-display",
+          "label": "All devices"
+        }
+      ],
+      "label": "Display on",
+      "default": "always-display"
+    },
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#0B0B0C"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background image"
+    },
+    {
+      "type": "paragraph",
+      "content": "Or"
+    },
+    {
+      "type": "video",
+      "id": "background_video",
+      "label": "Background video"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 30,
+      "unit": "%",
+      "label": "Overlay opacity"
+    },
+    {
+      "type": "header",
+      "content": "Height"
+    },
+    {
+      "type": "select",
+      "id": "min_desktop_height_type",
+      "label": "Minimum desktop height",
+      "options": [
+        {
+          "value": "autofit",
+          "label": "None (fit content)"
+        },
+        {
+          "value": "pixels",
+          "label": "Amount in pixels"
+        },
+        {
+          "value": "100vh",
+          "label": "Viewport height"
+        }
+      ],
+      "default": "pixels"
+    },
+    {
+      "type": "number",
+      "id": "desktop_pixels_height",
+      "label": "Desktop minimum height in pixels",
+      "default": 600
+    },
+    {
+      "type": "select",
+      "id": "min_mobile_height_type",
+      "label": "Minimum mobile height",
+      "options": [
+        {
+          "value": "autofit",
+          "label": "None (fit content)"
+        },
+        {
+          "value": "pixels",
+          "label": "Custom amount of pixels"
+        },
+        {
+          "value": "100vh",
+          "label": "Viewport height"
+        }
+      ],
+      "default": "pixels"
+    },
+    {
+      "type": "number",
+      "id": "mobile_pixels_height",
+      "label": "Mobile minimum height in pixels",
+      "default": 400
+    },
+    {
+      "type": "header",
+      "content": "Header"
+    },
+    {
+      "type": "checkbox",
+      "id": "transparent_header",
+      "label": "Transparent header",
+      "default": false,
+      "info": "Fits the hero under the header & makes it transparent. Scrolled sticky header is not affected. Top padding is automatically added (height of the header)."
+    },
+    {
+      "type": "select",
+      "id": "transparent_header_text_color",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "Accent 1"
+        },
+        {
+          "value": "accent-2",
+          "label": "Accent 2"
+        },
+        {
+          "value": "background-1",
+          "label": "Background 1"
+        },
+        {
+          "value": "background-2",
+          "label": "Background 2"
+        },
+        {
+          "value": "text",
+          "label": "Text"
+        }
+      ],
+      "default": "text",
+      "label": "Transparent header links & icons color"
+    },
+    {
+      "type": "select",
+      "id": "transparent_header_highlighted_link_color",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "Accent 1"
+        },
+        {
+          "value": "accent-2",
+          "label": "Accent 2"
+        },
+        {
+          "value": "background-1",
+          "label": "Background 1"
+        },
+        {
+          "value": "background-2",
+          "label": "Background 2"
+        },
+        {
+          "value": "text",
+          "label": "Text"
+        }
+      ],
+      "default": "background-1",
+      "label": "Transparent header highlighted link text color"
+    },
+    {
+      "type": "select",
+      "id": "transparent_header_hover_link_color",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "Accent 1"
+        },
+        {
+          "value": "accent-2",
+          "label": "Accent 2"
+        },
+        {
+          "value": "background-1",
+          "label": "Background 1"
+        },
+        {
+          "value": "background-2",
+          "label": "Background 2"
+        },
+        {
+          "value": "text",
+          "label": "Text"
+        }
+      ],
+      "default": "accent-1",
+      "label": "Transparent header hovered link text color"
+    },
+    {
+      "type": "select",
+      "id": "transparent_header_logo",
+      "options": [
+        {
+          "value": "main",
+          "label": "Primary"
+        },
+        {
+          "value": "secondary",
+          "label": "Secondary"
+        }
+      ],
+      "default": "main",
+      "label": "Transparent header logo",
+      "info": "Add a secondary logo in Theme settings > Logo."
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_announcement_bars",
+      "label": "Hide announcement bars",
+      "default": false,
+      "info": "HIGHLY RECOMMENDED when Transparent header is enabled. Hides all announcement bars & horizontal tickers inside the header group on this page only."
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading_prefix",
+      "label": "Heading prefix",
+      "default": "Professional Audio Analysis"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The Analyzer That Replaces Them All",
+      "info": "Bold certain words to highlight them with a different color."
+    },
+    {
+      "type": "color",
+      "id": "title_highlight_color",
+      "label": "Heading highlight color",
+      "default": "#FF6A00"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "Small"
+        },
+        {
+          "value": "h1",
+          "label": "Medium"
+        },
+        {
+          "value": "h0",
+          "label": "Large"
+        },
+        {
+          "value": "hxl",
+          "label": "Extra large"
+        }
+      ],
+      "default": "h1",
+      "label": "Heading size"
+    },
+    {
+      "type": "text",
+      "id": "heading_suffix",
+      "label": "Heading suffix",
+      "default": "Built for engineers, not marketers"
+    },
+    {
+      "type": "select",
+      "id": "heading_prefix_size",
+      "options": [
+        {
+          "value": "h5",
+          "label": "Extra small"
+        },
+        {
+          "value": "h4",
+          "label": "Small"
+        },
+        {
+          "value": "h3",
+          "label": "Medium"
+        },
+        {
+          "value": "h2",
+          "label": "Large"
+        }
+      ],
+      "default": "h4",
+      "label": "Heading prefix & suffix size"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Professional audio analysis with brutal usability. The most advanced analyzer on the market, designed for real engineers who need precision without complexity.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label_1",
+      "default": "Get Free for 30 Days",
+      "label": "Button label 1",
+      "info": "Leave blank to hide button"
+    },
+    {
+      "type": "url",
+      "id": "button_link_1",
+      "label": "Button link 1"
+    },
+    {
+      "type": "checkbox",
+      "id": "button_style_secondary_1",
+      "default": false,
+      "label": "Use secondary button style"
+    },
+    {
+      "type": "text",
+      "id": "button_label_2",
+      "label": "Button label 2",
+      "info": "Leave blank to hide button"
+    },
+    {
+      "type": "url",
+      "id": "button_link_2",
+      "label": "Button link 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "button_style_secondary_2",
+      "default": false,
+      "label": "Use secondary button style"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "Accent 1"
+        },
+        {
+          "value": "accent-2",
+          "label": "Accent 2"
+        },
+        {
+          "value": "background-1",
+          "label": "Background 1"
+        },
+        {
+          "value": "background-2",
+          "label": "Background 2"
+        },
+        {
+          "value": "inverse",
+          "label": "Inverse"
+        },
+        {
+          "value": "custom",
+          "label": "Custom"
+        }
+      ],
+      "default": "background-1",
+      "label": "Color scheme",
+      "info": "Custom color scheme is edited at the bottom of block settings."
+    },
+    {
+      "type": "header",
+      "content": "Content layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_page_width",
+      "label": "Use full page width",
+      "default": false
+    },
+    {
+      "type": "number",
+      "id": "content_max_width",
+      "label": "Content maximum width in pixels",
+      "default": 600
+    },
+    {
+      "type": "select",
+      "id": "content_vertical_position",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Top"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Bottom"
+        }
+      ],
+      "label": "Content vertical position",
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "content_horizontal_position",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Right"
+        }
+      ],
+      "label": "Content horizontal position",
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "content_text_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "label": "Content text alignment",
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Mobile content layout"
+    },
+    {
+      "type": "select",
+      "id": "mobile_content_vertical_position",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Top"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Bottom"
+        }
+      ],
+      "label": "Mobile content vertical position",
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "mobile_content_text_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "label": "Mobile content text alignment",
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Custom color scheme",
+      "info": "Applied if Color scheme setting is set to Custom."
+    },
+    {
+      "type": "color",
+      "id": "custom_colors_text",
+      "default": "#FFFFFF",
+      "label": "Text"
+    },
+    {
+      "type": "color",
+      "id": "custom_colors_solid_button_background",
+      "default": "#FF6A00",
+      "label": "Solid button background"
+    },
+    {
+      "type": "color",
+      "id": "custom_colors_solid_button_text",
+      "default": "#FFFFFF",
+      "label": "Solid button label"
+    },
+    {
+      "type": "color",
+      "id": "custom_colors_outline_button",
+      "default": "#FF6A00",
+      "label": "Outline button"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 50
+    }
+  ],
+  "presets": [
+    {
+      "name": "Reference hero"
+    }
+  ]
+}
+{% endschema %}

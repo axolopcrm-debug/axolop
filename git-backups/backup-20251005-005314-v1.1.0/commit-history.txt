@@ -1,0 +1,15 @@
+665d2d94 release: v1.1.0 — Branding updates, theme configuration, and header improvements
+2b498147 feat: Update theme configuration and branding assets
+d542b7c4 feat: Add Axolop logo and update header branding
+29f4828d fix: force update README.md on GitHub with comprehensive documentation
+aa49a652 docs: update README.md with comprehensive AXOLOP analyzer website information
+d6ef5eee feat: update deployment workflow with git backups priority
+061d9e58 Merge release/v1.0.0-pilot into main
+3798d42c release: v1.0.0-pilot — Initial AXOLOP deployment with streamlined workflow automation
+567150ec chore: remove git-backups submodule to clean working tree
+7fd3947f feat: add deployment scripts for streamlined workflow
+3094f1dd chore: add git-backups directory
+5c778004 feat: organize directory structure according to AXOLOP rules
+9c8d56f7 Add complete Shopify theme project - assets, sections, templates, and configuration
+365fc66b first commit
+6d23b9a0 first commit

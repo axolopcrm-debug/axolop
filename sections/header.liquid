@@ -18,12 +18,16 @@
     align-items: center;
     justify-content: center;
     margin: 0 auto;
+    flex-shrink: 0; /* Prevent logo from shrinking */
   }
   
   .header__heading-link.media img {
     object-fit: contain;
     width: 100%;
     height: 100%;
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
   }
 
   /* Center the logo heading */
@@ -37,6 +41,102 @@
     transform: translateX(-50%);
     z-index: 1;
     margin-top: -2px;
+    width: auto;
+    max-width: calc(100vw - 120px); /* Ensure it doesn't overflow on small screens */
+  }
+
+  /* Debug logo responsiveness - smaller screens */
+  @media screen and (min-width: 480px) and (max-width: 650px) {
+    .header__heading {
+      max-width: calc(100vw - 90px);
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    
+    .header__heading-link.media {
+      width: {{ settings.logo_width | times: 1.2 }}px !important;
+      max-width: {{ settings.logo_width | times: 1.2 }}px !important;
+      height: {{ settings.logo_width | times: 1.2 | divided_by: 2.5 }}px !important;
+      max-height: {{ settings.logo_width | times: 1.2 | divided_by: 2.5 }}px !important;
+    }
+  }
+
+  /* Debug logo responsiveness - intermediate tablet sizes */
+  @media screen and (min-width: 651px) and (max-width: 750px) {
+    .header__heading {
+      max-width: calc(100vw - 100px);
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    
+    .header__heading-link.media {
+      width: {{ settings.logo_width | times: 1.3 }}px !important;
+      max-width: {{ settings.logo_width | times: 1.3 }}px !important;
+      height: {{ settings.logo_width | times: 1.3 | divided_by: 2.5 }}px !important;
+      max-height: {{ settings.logo_width | times: 1.3 | divided_by: 2.5 }}px !important;
+    }
+  }
+
+  /* Debug logo responsiveness - tablet transition range */
+  @media screen and (min-width: 751px) and (max-width: 850px) {
+    .header__heading {
+      max-width: calc(100vw - 130px);
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    
+    .header__heading-link.media {
+      width: {{ settings.logo_width | times: 1.1 }}px !important;
+      max-width: {{ settings.logo_width | times: 1.1 }}px !important;
+      height: {{ settings.logo_width | times: 1.1 | divided_by: 2.5 }}px !important;
+      max-height: {{ settings.logo_width | times: 1.1 | divided_by: 2.5 }}px !important;
+    }
+  }
+
+  /* Debug logo responsiveness - larger tablet range */
+  @media screen and (min-width: 851px) and (max-width: 989px) {
+    .header__heading {
+      max-width: calc(100vw - 150px);
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    
+    .header__heading-link.media {
+      width: {{ settings.logo_width | times: 1.4 }}px !important;
+      max-width: {{ settings.logo_width | times: 1.4 }}px !important;
+      height: {{ settings.logo_width | times: 1.4 | divided_by: 2.5 }}px !important;
+      max-height: {{ settings.logo_width | times: 1.4 | divided_by: 2.5 }}px !important;
+    }
+  }
+
+  /* Responsive centering for smaller screens */
+  @media screen and (max-width: 749px) {
+    .header__heading {
+      max-width: calc(100vw - 100px);
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .header__heading {
+      max-width: calc(100vw - 80px);
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    
+    /* Ensure logo container doesn't get cut off */
+    .header__heading-link.media {
+      max-width: calc(100vw - 100px);
+    }
+  }
+
+  @media screen and (max-width: 360px) {
+    .header__heading {
+      max-width: calc(100vw - 60px);
+      left: 50%;
+      transform: translateX(-50%);
+    }
   }
 
   .header__heading-link.media .header__heading-logo--secondary {
@@ -45,10 +145,29 @@
   
   @media screen and (max-width: 749px) {
     .header__heading-link.media {
-      width: {{ settings.mobile_logo_width | times: 1.6 }}px;
-      max-width: {{ settings.mobile_logo_width | times: 1.6 }}px;
-      height: {{ settings.mobile_logo_width | times: 1.6 | divided_by: 2.5 }}px;
-      max-height: {{ settings.mobile_logo_width | times: 1.6 | divided_by: 2.5 }}px;
+      width: {{ settings.mobile_logo_width | times: 2.5 }}px;
+      max-width: {{ settings.mobile_logo_width | times: 2.5 }}px;
+      height: {{ settings.mobile_logo_width | times: 2.5 | divided_by: 2.5 }}px;
+      max-height: {{ settings.mobile_logo_width | times: 2.5 | divided_by: 2.5 }}px;
+    }
+  }
+
+  /* Additional responsive constraints for very small screens */
+  @media screen and (max-width: 480px) {
+    .header__heading-link.media {
+      width: min({{ settings.mobile_logo_width | times: 2.5 }}px, 180px);
+      max-width: min({{ settings.mobile_logo_width | times: 2.5 }}px, 180px);
+      height: min({{ settings.mobile_logo_width | times: 2.5 | divided_by: 2.5 }}px, 72px);
+      max-height: min({{ settings.mobile_logo_width | times: 2.5 | divided_by: 2.5 }}px, 72px);
+    }
+  }
+
+  @media screen and (max-width: 360px) {
+    .header__heading-link.media {
+      width: min({{ settings.mobile_logo_width | times: 2.5 }}px, 150px);
+      max-width: min({{ settings.mobile_logo_width | times: 2.5 }}px, 150px);
+      height: min({{ settings.mobile_logo_width | times: 2.5 | divided_by: 2.5 }}px, 60px);
+      max-height: min({{ settings.mobile_logo_width | times: 2.5 | divided_by: 2.5 }}px, 60px);
     }
   }
 
@@ -67,10 +186,29 @@
     }
     @media screen and (max-width: 749px) {
       .scrolled-past-header .header__heading-link.media {
-        width: {{ settings.mobile_logo_width | times: 1.2 }}px;
-        max-width: {{ settings.mobile_logo_width | times: 1.2 }}px;
-        height: {{ settings.mobile_logo_width | times: 1.2 | divided_by: 2.5 }}px;
-        max-height: {{ settings.mobile_logo_width | times: 1.2 | divided_by: 2.5 }}px;
+        width: {{ settings.mobile_logo_width | times: 2.0 }}px;
+        max-width: {{ settings.mobile_logo_width | times: 2.0 }}px;
+        height: {{ settings.mobile_logo_width | times: 2.0 | divided_by: 2.5 }}px;
+        max-height: {{ settings.mobile_logo_width | times: 2.0 | divided_by: 2.5 }}px;
+      }
+    }
+
+    /* Responsive constraints for sticky header on small screens */
+    @media screen and (max-width: 480px) {
+      .scrolled-past-header .header__heading-link.media {
+        width: min({{ settings.mobile_logo_width | times: 2.0 }}px, 150px);
+        max-width: min({{ settings.mobile_logo_width | times: 2.0 }}px, 150px);
+        height: min({{ settings.mobile_logo_width | times: 2.0 | divided_by: 2.5 }}px, 60px);
+        max-height: min({{ settings.mobile_logo_width | times: 2.0 | divided_by: 2.5 }}px, 60px);
+      }
+    }
+
+    @media screen and (max-width: 360px) {
+      .scrolled-past-header .header__heading-link.media {
+        width: min({{ settings.mobile_logo_width | times: 2.0 }}px, 120px);
+        max-width: min({{ settings.mobile_logo_width | times: 2.0 }}px, 120px);
+        height: min({{ settings.mobile_logo_width | times: 2.0 | divided_by: 2.5 }}px, 48px);
+        max-height: min({{ settings.mobile_logo_width | times: 2.0 | divided_by: 2.5 }}px, 48px);
       }
     }
   {%- endif -%}
@@ -111,19 +249,21 @@
     white-space: nowrap;
   }
 
-  /* Make header menu items much bigger */
+  /* Make header menu items smaller and move left */
   .header__menu-item {
     font-family: 'Lexend Giga', sans-serif !important;
-    font-size: 1.8rem !important;
-    font-weight: 900 !important;
+    font-size: 1.5rem !important;
+    font-weight: 800 !important;
     letter-spacing: -0.15em !important;
     text-transform: uppercase !important;
-    padding: 0.8rem 1.2rem !important;
+    padding: 0.6rem 1rem !important;
     text-decoration: none !important;
     border-radius: 8px;
     transition: all 0.2s ease;
     white-space: nowrap;
     flex-shrink: 0;
+    margin-right: auto !important;
+    margin-left: -2rem !important;
   }
 
   .header__menu-item:hover {
@@ -147,8 +287,8 @@
 
   @media screen and (min-width: 750px) {
     .header__menu-item {
-      font-size: 2.2rem !important;
-      padding: 1rem 1.8rem !important;
+      font-size: 1.8rem !important;
+      padding: 0.8rem 1.4rem !important;
     }
   }
 
@@ -190,23 +330,66 @@
     }
   }
 
-  /* Make header icons much bigger to match the larger text size */
+  /* Make header icons smaller and move to right */
   .header__icon {
-    width: 4rem !important;
-    height: 4rem !important;
-    padding: 0.8rem !important;
+    width: 3rem !important;
+    height: 3rem !important;
+    padding: 0.6rem !important;
+    margin-left: auto !important;
+    color: #000000 !important;
+    stroke-width: 2px !important;
   }
 
   .header__icon svg {
     width: 100% !important;
     height: 100% !important;
+    stroke: #000000 !important;
+    stroke-width: 2px !important;
+    fill: #000000 !important;
+  }
+
+  /* Style the hamburger menu icon specifically */
+  .header__icon--menu {
+    color: #000000 !important;
+  }
+
+  .header__icon--menu svg {
+    stroke: #000000 !important;
+    stroke-width: 2px !important;
+    fill: #000000 !important;
+  }
+
+  /* Make hamburger icon smaller on mobile to match other icon sizes */
+  @media screen and (max-width: 749px) {
+    .header__icon--menu {
+      width: 2rem !important;
+      height: 2rem !important;
+      padding: 0.4rem !important;
+    }
+  }
+
+  /* Style the shopping bag/cart icon specifically */
+  .header__icon--cart {
+    color: #000000 !important;
+  }
+
+  .header__icon--cart svg {
+    stroke: #000000 !important;
+    stroke-width: 4px !important;
+    fill: #000000 !important;
+  }
+
+  .header__icon--cart svg * {
+    stroke: #000000 !important;
+    stroke-width: 4px !important;
+    fill: #000000 !important;
   }
 
   @media screen and (min-width: 750px) {
     .header__icon {
-      width: 5rem !important;
-      height: 5rem !important;
-      padding: 1rem !important;
+      width: 3.5rem !important;
+      height: 3.5rem !important;
+      padding: 0.8rem !important;
     }
   }
 </style>
@@ -217,6 +400,7 @@
     padding-bottom: {{ section.settings.padding_bottom | times: 0.1 | round: 0 }}px;
     min-height: 60px;
     border-bottom: 0.4mm solid #000000;
+    overflow: hidden; /* Prevent logo from overflowing header bounds */
   }
 
   .section-header {
@@ -241,6 +425,26 @@
   @media screen and (max-width: 749px) {
     .header {
       min-height: 50px;
+    }
+  }
+
+  /* Ensure header stays within viewport on very small screens */
+  @media screen and (max-width: 360px) {
+    .header {
+      min-height: 45px;
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+    
+    /* Ensure logo is visible and centered on very small screens */
+    .header__heading {
+      position: relative;
+      left: auto;
+      transform: none;
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
 {%- endstyle -%}
@@ -363,7 +567,7 @@
             class="header__heading-link{% if section.settings.logo_link != blank %} link link--text focus-inset{% endif %} media media--transparent ratio"
             style="--ratio-percent: 40%"
           >
-            {%- assign axolop_logo = 'images/axolop-logo.png' | asset_url -%}
+            {%- assign axolop_logo = 'images/axolop logo.png' | asset_url -%}
             <img src="{{ axolop_logo }}" 
                  alt="{{ shop.name | escape }}" 
                  class="header__heading-logo header__heading-logo--main motion-reduce"
@@ -523,7 +727,7 @@
             class="header__heading-link{% if section.settings.logo_link != blank %} link link--text focus-inset{% endif %} media media--transparent ratio"
             style="--ratio-percent: 40%"
           >
-            {%- assign axolop_logo = 'images/axolop-logo.png' | asset_url -%}
+            {%- assign axolop_logo = 'images/axolop logo.png' | asset_url -%}
             <img src="{{ axolop_logo }}" 
                  alt="{{ shop.name | escape }}" 
                  class="header__heading-logo header__heading-logo--main"

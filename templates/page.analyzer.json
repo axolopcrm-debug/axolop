@@ -7,13 +7,23 @@
         "link": "/products/analyzer"
       }
     },
-    "slideshow-hero": {
-      "type": "slideshow-hero",
+    "reference-hero": {
+      "type": "reference-hero",
       "settings": {
+        "heading_prefix": "Professional Audio Analysis",
         "heading": "The Analyzer That Replaces Them All",
-        "subheading": "Professional audio analysis with brutal usability. Built for engineers, not marketers.",
-        "button_text": "Get Free for 30 Days",
-        "button_url": "/products/analyzer"
+        "heading_suffix": "Built for engineers, not marketers",
+        "text": "<p>Professional audio analysis with brutal usability. The most advanced analyzer on the market, designed for real engineers who need precision without complexity.</p>",
+        "button_label_1": "Get Free for 30 Days",
+        "button_link_1": "/products/analyzer",
+        "button_label_2": "See It vs Your Meter",
+        "button_link_2": "#comparison",
+        "background_color": "#0B0B0C",
+        "overlay_opacity": 30,
+        "content_max_width": 600,
+        "heading_size": "h1",
+        "heading_prefix_size": "h4",
+        "color_scheme": "background-1"
       }
     },
     "comparison-table": {
@@ -54,7 +64,7 @@
   },
   "order": [
     "announcement-bar",
-    "slideshow-hero",
+    "reference-hero",
     "comparison-table",
     "pricing-table",
     "testimonials",

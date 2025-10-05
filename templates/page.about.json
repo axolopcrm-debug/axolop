@@ -8,12 +8,20 @@
       }
     },
     "hero": {
-      "type": "slideshow-hero",
+      "type": "reference-hero",
       "settings": {
+        "heading_prefix": "Professional Audio Software",
         "heading": "About AXOLOP",
-        "subheading": "Building the future of professional audio software",
-        "button_text": "Try Our Analyzer",
-        "button_url": "/products/analyzer"
+        "heading_suffix": "Building the future of professional audio software",
+        "text": "<p>AXOLOP is dedicated to creating professional audio software that combines technical precision with aesthetic restraint. We believe in brutal usability - every control exists for a reason, zero clutter.</p>",
+        "button_label_1": "Try Our Analyzer",
+        "button_link_1": "/products/analyzer",
+        "background_color": "#0B0B0C",
+        "overlay_opacity": 30,
+        "content_max_width": 600,
+        "heading_size": "h1",
+        "heading_prefix_size": "h4",
+        "color_scheme": "background-1"
       }
     },
     "content": {
